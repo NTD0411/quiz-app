@@ -1,0 +1,315 @@
+{
+  "tests": {
+    "1": {
+      "title": "TEST 01",
+      "questions": {
+        "1": {
+          "text": "I laughed a lot because the movie was________",
+          "options": {
+            "A": "funny",
+            "B": "excited",
+            "C": "frightening",
+            "D": "boring"
+          }
+        },
+        "2": {
+          "text": "Please remember ________your hand during the test if you have a question.",
+          "options": {
+            "A": "raise",
+            "B": "to raise",
+            "C": "raising",
+            "D": "to raising"
+          }
+        },
+        "3": {
+          "text": "My brothers are working ________ for the exam.",
+          "options": {
+            "A": "hardly",
+            "B": "hard",
+            "C": "more hard",
+            "D": "hardness"
+          }
+        },
+        "4": {
+          "text": "My parents often goes to the countryside in their free time. The quiet and ________ atmosphere there calm them down.",
+          "options": {
+            "A": "polluted",
+            "B": "peaceful",
+            "C": "dirty",
+            "D": "noisy"
+          }
+        },
+        "5": {
+          "text": "When she was at university, my mum did a ________in Literature.",
+          "options": {
+            "A": "study",
+            "B": "subject",
+            "C": "degree",
+            "D": "certificate"
+          }
+        },
+        "6": {
+          "text": "They wanted to buy a drink, but the machine was out of ________",
+          "options": {
+            "A": "work",
+            "B": "position",
+            "C": "operation",
+            "D": "order"
+          }
+        },
+        "7": {
+          "text": "Passengers to Vietnam may ________ for a visa on arrival in certain situations",
+          "options": {
+            "A": "apply",
+            "B": "ask",
+            "C": "request",
+            "D": "require"
+          }
+        },
+        "8": {
+          "text": "The _____for a Vietnamese single visa is 25 USD, a multiple one is 50 USD",
+          "options": {
+            "A": "fee",
+            "B": "price",
+            "C": "cost",
+            "D": "money"
+          }
+        },
+        "9": {
+          "text": "Passengers are required to present their________ passports or travel documents, photos and an application form for visa issuance.",
+          "options": {
+            "A": "valid",
+            "B": "invalid",
+            "C": "expire",
+            "D": "fraud"
+          }
+        },
+        "10": {
+          "text": "Crews of a ship may stay in a hotel after they have ____from Port Border Guard.",
+          "options": {
+            "A": "permit",
+            "B": "certificate",
+            "C": "license",
+            "D": "degree"
+          }
+        },
+        "11": {
+          "text": "PART 2 - Question 11",
+          "options": {
+            "A": "A",
+            "B": "B",
+            "C": "C",
+            "D": "D"
+          }
+        },
+        "12": {
+          "text": "PART 2 - Question 12",
+          "options": {
+            "A": "A",
+            "B": "B",
+            "C": "C",
+            "D": "D"
+          }
+        },
+        "13": {
+          "text": "PART 2 - Question 13",
+          "options": {
+            "A": "A",
+            "B": "B",
+            "C": "C",
+            "D": "D"
+          }
+        },
+        "14": {
+          "text": "PART 2 - Question 14",
+          "options": {
+            "A": "A",
+            "B": "B",
+            "C": "C",
+            "D": "D"
+          }
+        },
+        "15": {
+          "text": "PART 2 - Question 15",
+          "options": {
+            "A": "A",
+            "B": "B",
+            "C": "C",
+            "D": "D"
+          }
+        },
+        "16": {
+          "text": "What happens if a foreigner fails to exit Vietnam or extend the visa when his or her Vietnam visa expired?",
+          "options": {
+            "A": "He/she will be penalized for their action.",
+            "B": "He/ she will enter Vietnam legally.",
+            "C": "He/ she will be sent to prison.",
+            "D": "He/ she will visit Vietnam."
+          }
+        },
+        "17": {
+          "text": "Where can foreigners planning to exit Vietnam after overstaying for no more than 3 days pay fine fee?",
+          "options": {
+            "A": "at ports of exit",
+            "B": "at ports of entry",
+            "C": "at Vietnam Immigration Department",
+            "D": "at the airport"
+          }
+        },
+        "18": {
+          "text": "What does a foreigner do if his/her visa has been expired for a long time?",
+          "options": {
+            "A": "He/she must leave Vietnam immediately.",
+            "B": "He/she must submit their original passports.",
+            "C": "He/she must get an exit visa or visa extension immediately.",
+            "D": "He/ she must enter Vietnam."
+          }
+        },
+        "19": {
+          "text": "How can a foreigner have his/her visa extended or renewed?",
+          "options": {
+            "A": "She/he should contact Vietnam Immigration Department to arrange visa extension or visa renewal before expiration date.",
+            "B": "She/he should pay the fine fee and fee for extension or exit one.",
+            "C": "She/he should submit his/her original passports, then pay the fine fee and fee for extension or exit one.",
+            "D": "He/ she should complain."
+          }
+        },
+        "20": {
+          "text": "Where can a foreigner have his/her visa extended or renewed?",
+          "options": {
+            "A": "at ports of exit",
+            "B": "at police station",
+            "C": "at Vietnam Immigration Department",
+            "D": "at the border checkpoint."
+          }
+        },
+        "21": {
+          "text": "PART 4 - Question 21",
+          "options": {
+            "A": "the",
+            "B": "one",
+            "C": "a",
+            "D": "an"
+          }
+        },
+        "22": {
+          "text": "PART 4 - Question 22",
+          "options": {
+            "A": "said",
+            "B": "made",
+            "C": "could",
+            "D": "put"
+          }
+        },
+        "23": {
+          "text": "PART 4 - Question 23",
+          "options": {
+            "A": "opportunities",
+            "B": "customs",
+            "C": "classes",
+            "D": "teachers"
+          }
+        },
+        "24": {
+          "text": "PART 4 - Question 24",
+          "options": {
+            "A": "where",
+            "B": "how",
+            "C": "there",
+            "D": "which"
+          }
+        },
+        "25": {
+          "text": "PART 4 - Question 25",
+          "options": {
+            "A": "by",
+            "B": "from",
+            "C": "for",
+            "D": "in"
+          }
+        },
+        "26": {
+          "text": "PART 4 - Question 26",
+          "options": {
+            "A": "or",
+            "B": "because",
+            "C": "but",
+            "D": "as"
+          }
+        },
+        "27": {
+          "text": "PART 4 - Question 27",
+          "options": {
+            "A": "learnt",
+            "B": "experimented",
+            "C": "did",
+            "D": "invented"
+          }
+        },
+        "28": {
+          "text": "PART 4 - Question 28",
+          "options": {
+            "A": "time",
+            "B": "period",
+            "C": "year",
+            "D": "day"
+          }
+        },
+        "29": {
+          "text": "PART 4 - Question 29",
+          "options": {
+            "A": "anyone",
+            "B": "nobody",
+            "C": "all",
+            "D": "something"
+          }
+        },
+        "30": {
+          "text": "PART 4 - Question 30",
+          "options": {
+            "A": "was",
+            "B": "had",
+            "C": "has",
+            "D": "is"
+          }
+        }
+      }
+    },
+    "2": {
+      "title": "TEST 02",
+      "questions": {
+        "1": {
+          "text": "Participants ________ bring any special equipment as everything will be provided.",
+          "options": {
+            "A": "mustn't",
+            "B": "have to",
+            "C": "should",
+            "D": "needn't"
+          }
+        }
+      }
+    }
+  },
+  "answers": {
+    "1": { "1": "A", "2": "B", "3": "B", "4": "B", "5": "C", "6": "D", "7": "A", "8": "A", "9": "A", "10": "A", "11": "A", "12": "B", "13": "B", "14": "A", "15": "A", "16": "A", "17": "A", "18": "C", "19": "A", "20": "C", "21": "A", "22": "B", "23": "A", "24": "A", "25": "C", "26": "C", "27": "D", "28": "A", "29": "A", "30": "A" },
+    "2": { "1": "D", "2": "A", "3": "A", "4": "C", "5": "B", "6": "A", "7": "A", "8": "A", "9": "A", "10": "A", "11": "B", "12": "A", "13": "B", "14": "A", "15": "C", "16": "C", "17": "A", "18": "B", "19": "A", "20": "A", "21": "A", "22": "B", "23": "D", "24": "A", "25": "B", "26": "A", "27": "D", "28": "B", "29": "C", "30": "A" },
+    "3": { "1": "C", "2": "B", "3": "B", "4": "C", "5": "A", "6": "C", "7": "A", "8": "A", "9": "A", "10": "A", "11": "A", "12": "A", "13": "C", "14": "A", "15": "C", "16": "A", "17": "B", "18": "A", "19": "C", "20": "C", "21": "A", "22": "C", "23": "B", "24": "D", "25": "A", "26": "C", "27": "D", "28": "A", "29": "B", "30": "C" },
+    "4": { "1": "C", "2": "D", "3": "A", "4": "A", "5": "B", "6": "A", "7": "A", "8": "A", "9": "A", "10": "A", "11": "A", "12": "A", "13": "B", "14": "C", "15": "C", "16": "A", "17": "A", "18": "B", "19": "A", "20": "B", "21": "B", "22": "C", "23": "B", "24": "D", "25": "A", "26": "C", "27": "D", "28": "A", "29": "B", "30": "C" },
+    "5": { "1": "C", "2": "C", "3": "A", "4": "C", "5": "A", "6": "B", "7": "A", "8": "A", "9": "A", "10": "A", "11": "A", "12": "C", "13": "B", "14": "B", "15": "A", "16": "B", "17": "A", "18": "A", "19": "C", "20": "C", "21": "C", "22": "A", "23": "B", "24": "D", "25": "A", "26": "C", "27": "A", "28": "B", "29": "D", "30": "A" },
+    "6": { "1": "B", "2": "C", "3": "B", "4": "A", "5": "C", "6": "D", "7": "A", "8": "A", "9": "A", "10": "A", "11": "C", "12": "C", "13": "B", "14": "C", "15": "C", "16": "D", "17": "B", "18": "A", "19": "C", "20": "A", "21": "B", "22": "D", "23": "D", "24": "B", "25": "C", "26": "A", "27": "D", "28": "A", "29": "B", "30": "C" },
+    "7": { "1": "B", "2": "C", "3": "A", "4": "B", "5": "C", "6": "B", "7": "A", "8": "A", "9": "A", "10": "A", "11": "B", "12": "C", "13": "C", "14": "A", "15": "B", "16": "A", "17": "C", "18": "B", "19": "A", "20": "C", "21": "B", "22": "A", "23": "D", "24": "C", "25": "B", "26": "A", "27": "D", "28": "C", "29": "B", "30": "A" },
+    "8": { "1": "D", "2": "A", "3": "B", "4": "C", "5": "C", "6": "A", "7": "A", "8": "A", "9": "A", "10": "A", "11": "A", "12": "C", "13": "C", "14": "C", "15": "B", "16": "B", "17": "C", "18": "A", "19": "C", "20": "A", "21": "D", "22": "A", "23": "B", "24": "D", "25": "A", "26": "B", "27": "C", "28": "A", "29": "D", "30": "A" },
+    "9": { "1": "D", "2": "B", "3": "B", "4": "C", "5": "A", "6": "B", "7": "A", "8": "A", "9": "A", "10": "A", "11": "A", "12": "C", "13": "D", "14": "D", "15": "C", "16": "B", "17": "A", "18": "B", "19": "C", "20": "A", "21": "A", "22": "A", "23": "A", "24": "A", "25": "C", "26": "C", "27": "C", "28": "C", "29": "D", "30": "D" },
+    "10": { "1": "B", "2": "A", "3": "C", "4": "D", "5": "B", "6": "B", "7": "A", "8": "A", "9": "A", "10": "A", "11": "C", "12": "A", "13": "C", "14": "C", "15": "A", "16": "C", "17": "D", "18": "A", "19": "B", "20": "A", "21": "A", "22": "B", "23": "D", "24": "C", "25": "D", "26": "C", "27": "A", "28": "B", "29": "D", "30": "A" },
+    "11": { "1": "A", "2": "D", "3": "B", "4": "C", "5": "B", "6": "D", "7": "A", "8": "A", "9": "A", "10": "A", "11": "C", "12": "A", "13": "B", "14": "D", "15": "B", "16": "B", "17": "C", "18": "A", "19": "D", "20": "C", "21": "A", "22": "B", "23": "D", "24": "C", "25": "C", "26": "A", "27": "D", "28": "A", "29": "B", "30": "A" },
+    "12": { "1": "C", "2": "B", "3": "C", "4": "D", "5": "B", "6": "C", "7": "A", "8": "A", "9": "A", "10": "A", "11": "B", "12": "D", "13": "A", "14": "B", "15": "C", "16": "A", "17": "B", "18": "D", "19": "C", "20": "A", "21": "D", "22": "C", "23": "D", "24": "A", "25": "B", "26": "C", "27": "C", "28": "D", "29": "A", "30": "B" },
+    "13": { "1": "C", "2": "B", "3": "B", "4": "C", "5": "D", "6": "B", "7": "A", "8": "A", "9": "A", "10": "A", "11": "A", "12": "B", "13": "B", "14": "A", "15": "C", "16": "B", "17": "C", "18": "A", "19": "A", "20": "B", "21": "D", "22": "C", "23": "A", "24": "C", "25": "D", "26": "B", "27": "A", "28": "C", "29": "C", "30": "A" },
+    "14": { "1": "B", "2": "C", "3": "B", "4": "A", "5": "C", "6": "D", "7": "A", "8": "A", "9": "A", "10": "A", "11": "A", "12": "C", "13": "B", "14": "C", "15": "B", "16": "B", "17": "A", "18": "A", "19": "C", "20": "A", "21": "B", "22": "A", "23": "D", "24": "B", "25": "A", "26": "C", "27": "D", "28": "A", "29": "C", "30": "A" },
+    "15": { "1": "A", "2": "A", "3": "C", "4": "D", "5": "A", "6": "A", "7": "A", "8": "A", "9": "A", "10": "A", "11": "D", "12": "B", "13": "B", "14": "C", "15": "A", "16": "B", "17": "A", "18": "C", "19": "B", "20": "C", "21": "B", "22": "C", "23": "D", "24": "A", "25": "B", "26": "A", "27": "D", "28": "B", "29": "C", "30": "A" },
+    "16": { "1": "B", "2": "A", "3": "B", "4": "B", "5": "C", "6": "B", "7": "B", "8": "A", "9": "A", "10": "D", "11": "B", "12": "A", "13": "B", "14": "C", "15": "A", "16": "A", "17": "A", "18": "B", "19": "C", "20": "B", "21": "", "22": "C", "23": "C", "24": "A", "25": "B", "26": "D", "27": "B", "28": "D", "29": "D", "30": "B" },
+    "17": { "1": "B", "2": "A", "3": "C", "4": "A", "5": "B", "6": "A", "7": "A", "8": "D", "9": "D", "10": "A", "11": "A", "12": "B", "13": "C", "14": "B", "15": "A", "16": "B", "17": "A", "18": "C", "19": "A", "20": "B", "21": "D", "22": "D", "23": "C", "24": "A", "25": "B", "26": "A", "27": "C", "28": "B", "29": "B", "30": "A" },
+    "18": { "1": "B", "2": "D", "3": "B", "4": "D", "5": "A", "6": "C", "7": "C", "8": "C", "9": "D", "10": "B", "11": "C", "12": "A", "13": "B", "14": "A", "15": "B", "16": "C", "17": "A", "18": "B", "19": "A", "20": "B", "21": "B", "22": "C", "23": "D", "24": "A", "25": "B", "26": "A", "27": "C", "28": "A", "29": "B", "30": "D" },
+    "19": { "1": "D", "2": "C", "3": "B", "4": "D", "5": "A", "6": "B", "7": "C", "8": "D", "9": "B", "10": "C", "11": "A", "12": "A", "13": "A", "14": "C", "15": "C", "16": "A", "17": "C", "18": "A", "19": "B", "20": "A", "21": "B", "22": "A", "23": "B", "24": "D", "25": "C", "26": "C", "27": "B", "28": "A", "29": "B", "30": "D" },
+    "20": { "1": "C", "2": "C", "3": "C", "4": "C", "5": "B", "6": "C", "7": "B", "8": "B", "9": "C", "10": "A", "11": "A", "12": "A", "13": "C", "14": "C", "15": "A", "16": "B", "17": "A", "18": "B", "19": "A", "20": "C", "21": "B", "22": "D", "23": "A", "24": "D", "25": "C", "26": "C", "27": "A", "28": "B", "29": "B", "30": "C" }
+  }
+}
