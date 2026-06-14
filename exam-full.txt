@@ -1,18 +1,4 @@
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Quiz Document</title>
-<style>
-body{font-family:Arial,sans-serif;max-width:900px;margin:auto;padding:20px;line-height:1.6}
-pre{white-space:pre-wrap}
-</style>
-</head>
-<body>
-<h1>Nội dung đề thi từ file Word</h1>
-<pre>
 TEST 01
 PART 1 (10 points): 
 Circle the letter next to the word or phrase which best completes each sentence. 
@@ -2184,6 +2170,3 @@ Connie Wilson (22) ________ a bus driver a year ago. ‘(23) ________first, driv
 28.	A.	delay	B.	wait	C.	expect	D.	attend
 29.	A.	cause	B.	reason	C.	purpose	D.	account	
 30.	A.	approve	B.	reason	C.	recommend	D.	admire
-</pre>
-</body>
-</html>

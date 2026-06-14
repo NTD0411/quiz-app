@@ -31,12 +31,19 @@
         .fab-btn { position: fixed; bottom: 30px; left: 30px; z-index: 10000; width: 55px; height: 55px; border-radius: 50%; background: var(--primary); border: 2px solid var(--accent); color: white; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; cursor: pointer; }
         .fab-btn:hover { transform: scale(1.15); background: var(--primary-hover); }
         
-        .container { max-width: 1200px; margin: 40px auto; padding: 20px; }
+        .container { max-width: 1400px; margin: 40px auto; padding: 20px; }
         .card { background: var(--bg-card); border-radius: 12px; padding: 35px; box-shadow: var(--shadow); margin-bottom: 25px; border-top: 5px solid var(--primary); }
-        .navbar { display: flex; justify-content: space-between; align-items: center; background: var(--primary); color: white; padding: 15px 25px; border-radius: 12px; margin-bottom: 25px; position: sticky; top: 10px; z-index: 998; }
-        .nav-title { font-weight: bold; font-size: 1.3rem; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; background: var(--primary); color: white; padding: 15px 25px; border-radius: 12px; margin-bottom: 20px; position: sticky; top: 10px; z-index: 998; }
+        .nav-left { display: flex; align-items: center; gap: 15px; }
+        .nav-title { font-weight: bold; font-size: 1.1rem; }
+        .nav-progress { font-size: 0.9rem; opacity: 0.9; }
+        .nav-right { display: flex; align-items: center; gap: 10px; }
         .icon-btn { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
         .icon-btn:hover { color: var(--accent); }
+        .timer-box { display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.2); padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; border: 1px solid rgba(255,255,255,0.25); }
+        .timer-box.warning { background: rgba(192,57,43,0.35); border-color: var(--danger); animation: timerPulse 1s infinite; }
+        @keyframes timerPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.75; } }
+        .mode-badge { background: var(--accent); color: #1a251a; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; }
         
         .test-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 30px; }
         .test-card { background: var(--bg-body); border: 2px solid var(--border); border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
@@ -46,36 +53,83 @@
         .test-card p { color: var(--text-muted); font-size: 0.9rem; }
         .test-card:hover p { color: rgba(255,255,255,0.8); }
         
-        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; transition: 0.3s; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; transition: 0.3s; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-primary:hover { background: var(--primary-hover); transform: translateY(-3px); }
+        .btn-sm { padding: 8px 16px; font-size: 0.9rem; }
         
-        .question-block { margin-bottom: 30px; padding: 20px; background: var(--bg-body); border-radius: 10px; border-left: 4px solid var(--primary); }
-        .question-text { font-weight: 600; font-size: 1rem; margin-bottom: 15px; line-height: 1.5; }
-        .options { display: grid; gap: 10px; }
-        .option { padding: 12px 18px; border: 2px solid var(--border); border-radius: 8px; cursor: pointer; background: var(--bg-card); transition: 0.25s; }
-        .option:hover { border-color: var(--primary); transform: translateX(5px); }
+        /* Mode Selection */
+        .mode-overlay { position: fixed; inset: 0; z-index: 10010; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .mode-panel { background: var(--bg-card); border-radius: 16px; padding: 35px; max-width: 480px; width: 100%; box-shadow: var(--shadow); border-top: 5px solid var(--primary); text-align: center; }
+        .mode-panel h2 { color: var(--primary); margin-bottom: 8px; }
+        .mode-panel p { color: var(--text-muted); margin-bottom: 25px; }
+        .mode-options { display: grid; gap: 15px; }
+        .mode-option { padding: 22px; border: 2px solid var(--border); border-radius: 12px; cursor: pointer; transition: 0.3s; text-align: left; background: var(--bg-body); }
+        .mode-option:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: var(--shadow); }
+        .mode-option h3 { color: var(--primary); margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+        .mode-option span { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* PART Layout */
+        .part-header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+        .part-header-title { display: flex; align-items: center; gap: 10px; font-size: 1.15rem; font-weight: 800; color: var(--text-main); }
+        .part-badge { background: var(--bg-body); border: 2px solid var(--border); padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); }
+        .part-instruction { font-style: italic; color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; }
+        .part-container { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+        .passage-section { background: var(--bg-card); padding: 28px 28px 28px 32px; border-radius: 10px; border-left: 5px solid var(--primary); max-height: calc(100vh - 280px); overflow-y: auto; position: sticky; top: 90px; box-shadow: var(--shadow); }
+        .passage-section.cloze-passage { background: var(--bg-body); border-left-width: 6px; }
+        .passage-heading { font-weight: 900; font-size: 1rem; color: var(--primary); margin-bottom: 18px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .passage-text { font-size: 0.95rem; line-height: 1.75; color: var(--text-main); text-align: justify; }
+        .passage-text p { margin-bottom: 16px; }
+        .questions-section { display: flex; flex-direction: column; gap: 22px; max-height: calc(100vh - 280px); overflow-y: auto; padding-right: 4px; }
+        .questions-section.cloze-questions { gap: 18px; }
+        .sign-box { background: var(--bg-body); border: 2px dashed var(--border); border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; font-size: 0.92rem; line-height: 1.65; white-space: pre-wrap; color: var(--text-main); }
+        .cloze-q-label { font-weight: 800; color: var(--primary); font-size: 0.95rem; margin-bottom: 10px; }
+        .cloze-q-label .q-en { color: var(--text-main); }
+        
+        .question-block { padding: 0; background: transparent; }
+        .question-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+        .question-text { font-weight: 700; font-size: 0.95rem; line-height: 1.5; color: var(--primary); flex: 1; }
+        .question-num { color: var(--primary); font-weight: 900; }
+        .tip-btn { flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; border-radius: 20px; border: 1px solid #e6c200; background: #fff9db; color: #8a7200; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .tip-btn:hover { background: #ffef9f; transform: scale(1.05); }
+        .tip-popup { position: fixed; z-index: 10020; background: var(--bg-card); border: 2px solid var(--accent); border-radius: 10px; padding: 16px 20px; max-width: 320px; box-shadow: var(--shadow); font-size: 0.9rem; line-height: 1.5; }
+        .tip-popup strong { color: var(--primary); display: block; margin-bottom: 6px; }
+        .answer-reveal { margin-top: 10px; padding: 10px 14px; border-radius: 8px; background: rgba(39,174,96,0.12); border-left: 4px solid var(--success); font-size: 0.88rem; font-weight: 700; color: var(--success); }
+        .answer-reveal.wrong-pick { background: rgba(192,57,43,0.08); border-left-color: var(--danger); color: var(--danger); margin-bottom: 6px; }
+        .show-ans-btn { flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--primary); background: rgba(43,83,41,0.08); color: var(--primary); font-size: 0.78rem; font-weight: 700; cursor: pointer; }
+        .show-ans-btn:hover { background: rgba(43,83,41,0.15); }
+        .question-actions { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+        .options { display: grid; gap: 8px; }
+        .option { padding: 10px 15px; border: 2px solid var(--border); border-radius: 8px; cursor: pointer; background: var(--bg-card); transition: 0.25s; font-size: 0.9rem; }
+        .option:hover { border-color: var(--primary); transform: translateX(3px); }
         .option.selected { border-color: var(--primary); background: rgba(43,83,41,0.1); font-weight: 600; }
         .option.correct { border-color: var(--success) !important; background: rgba(39,174,96,0.15) !important; }
         .option.wrong { border-color: var(--danger) !important; background: rgba(192,57,43,0.1) !important; }
         
+        .part-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--border); }
+        .part-nav-btn { display: flex; gap: 8px; }
+        
         .review-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 10px; margin-top: 20px; }
-        .review-item { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; font-weight: bold; transition: 0.3s; cursor: pointer; }
-        .review-item:hover { transform: scale(1.2); }
+        .review-item { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; font-weight: bold; font-size: 0.85rem; cursor: pointer; }
         .review-item.correct { background: var(--success); }
         .review-item.wrong { background: var(--danger); }
         .review-item.unanswered { background: var(--text-muted); }
         
         .wrong-answer-item { background: var(--bg-body); padding: 15px; border-radius: 8px; border-left: 4px solid var(--danger); margin-bottom: 15px; }
-        .wrong-qa { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
         .wrong-answer-item h4 { color: var(--danger); margin-bottom: 10px; font-size: 0.95rem; }
         .answer-row { display: flex; align-items: center; gap: 15px; padding: 8px 0; }
-        .answer-label { font-weight: 600; color: var(--text-muted); width: 120px; }
-        .answer-value { padding: 8px 12px; background: var(--bg-card); border-radius: 6px; border-left: 3px solid; }
+        .answer-label { font-weight: 600; color: var(--text-muted); width: 120px; font-size: 0.9rem; }
+        .answer-value { padding: 8px 12px; background: var(--bg-card); border-radius: 6px; border-left: 3px solid; font-size: 0.9rem; }
         .user-ans { border-left-color: var(--danger); color: var(--danger); }
         .correct-ans { border-left-color: var(--success); color: var(--success); }
         
         .hide { display: none !important; }
+        
+        @media (max-width: 1024px) {
+            .part-container { grid-template-columns: 1fr; }
+            .passage-section { position: static; max-height: 350px; }
+            .questions-section { max-height: none; }
+        }
     </style>
 </head>
 <body>
@@ -84,28 +138,40 @@
     </div>
 
     <div class="watermark"><i class="fas fa-book-open"></i> QUIZ PRO</div>
-    <button class="fab-btn" onclick="toggleTheme()" title="Đổi giao diện"><i class="fas fa-moon" id="theme-icon"></i></button>
+    <button class="fab-btn" onclick="toggleTheme()"><i class="fas fa-moon" id="theme-icon"></i></button>
 
     <div class="container">
+        <!-- MENU -->
         <div id="main-menu" class="card" style="text-align: center; padding: 50px 20px;">
             <i class="fas fa-book" style="font-size: 4rem; color: var(--accent); margin-bottom: 20px;"></i>
             <h1 style="color: var(--primary); text-transform: uppercase; margin-bottom: 10px;">Luyện Thi Tiếng Anh</h1>
-            <p style="color: var(--text-muted); margin-bottom: 30px; font-size: 1.1rem; font-weight: bold;">20 Đề Thi - 600 Câu Hỏi</p>
+            <p style="color: var(--text-muted); margin-bottom: 30px; font-size: 1.1rem; font-weight: bold;">20 Đề Thi • 600 Câu • Luyện tập hoặc Thi thử 40 phút</p>
             <h2 style="margin-bottom: 20px;">📋 Chọn Đề Thi:</h2>
             <div class="test-grid" id="test-grid"></div>
         </div>
 
+        <!-- QUIZ -->
         <div id="quiz-screen" class="hide">
             <div class="navbar">
-                <div class="nav-title"><i class="fas fa-file-alt"></i> <span id="nav-title">Đề Thi</span></div>
-                <div style="display: flex; gap: 15px;">
-                    <button class="btn btn-primary" onclick="submitQuiz()">✓ Nộp Bài</button>
-                    <button class="icon-btn" onclick="backToMenu()"><i class="fas fa-arrow-left"></i></button>
+                <div class="nav-left">
+                    <i class="fas fa-file-alt" style="font-size: 1.3rem;"></i>
+                    <div>
+                        <div class="nav-title">Đề Thi Số <span id="test-num">01</span></div>
+                        <div class="nav-progress"><span id="part-display">Part 1/4</span> • <span id="question-progress">Câu 1-10</span></div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <span id="mode-badge" class="mode-badge hide"></span>
+                    <div id="timer-box" class="timer-box hide"><i class="fas fa-clock"></i> <span id="timer-display">40:00</span></div>
+                    <button class="btn btn-primary btn-sm" onclick="submitQuiz()">✓ Nộp Bài</button>
+                    <button class="icon-btn" onclick="backToMenu()"><i class="fas fa-bars"></i></button>
                 </div>
             </div>
-            <div id="quiz-content" style="max-width: 900px; margin: 0 auto;"></div>
+
+            <div id="quiz-content"></div>
         </div>
 
+        <!-- RESULT -->
         <div id="result-screen" class="hide">
             <div class="card" style="text-align: center;">
                 <i class="fas fa-medal" style="font-size: 4rem; color: var(--accent); margin-bottom: 20px;"></i>
@@ -128,9 +194,29 @@
         </div>
     </div>
 
+    <div id="mode-overlay" class="mode-overlay hide">
+        <div class="mode-panel">
+            <h2>Chọn Chế Độ Làm Bài</h2>
+            <p>Đề thi <strong id="mode-test-label">01</strong> — 30 câu / 4 phần</p>
+            <div class="mode-options">
+                <div class="mode-option" onclick="confirmStartTest('practice')">
+                    <h3><i class="fas fa-book-reader" style="color: var(--success);"></i> Luyện Tập</h3>
+                    <span>Không giới hạn thời gian — tự do chuyển part, xem mẹo và ôn lại từng phần.</span>
+                </div>
+                <div class="mode-option" onclick="confirmStartTest('exam')">
+                    <h3><i class="fas fa-stopwatch" style="color: var(--danger);"></i> Thi Thử</h3>
+                    <span>Thời gian 40 phút — bộ đếm ngược, tự nộp bài khi hết giờ.</span>
+                </div>
+            </div>
+            <button class="btn btn-primary" style="margin-top: 20px; background: var(--text-muted);" onclick="closeModeOverlay()"><i class="fas fa-arrow-left"></i> Quay Lại</button>
+        </div>
+    </div>
+
+    <script src="exam-bank.js"></script>
+    <script src="data.js"></script>
+    <script src="part2-data.js"></script>
     <script>
-        // ========== ANSWER KEYS ==========
-        const answerKeys = {
+        let answerKeys = window.EXAM_ANSWER_KEYS || {
             1: {1:'A',2:'B',3:'B',4:'B',5:'C',6:'D',7:'A',8:'A',9:'A',10:'A',11:'A',12:'B',13:'B',14:'A',15:'A',16:'A',17:'A',18:'C',19:'A',20:'C',21:'A',22:'B',23:'A',24:'A',25:'C',26:'C',27:'D',28:'A',29:'A',30:'A'},
             2: {1:'D',2:'A',3:'A',4:'C',5:'B',6:'A',7:'A',8:'A',9:'A',10:'A',11:'B',12:'A',13:'B',14:'A',15:'C',16:'C',17:'A',18:'B',19:'A',20:'A',21:'A',22:'B',23:'D',24:'A',25:'B',26:'A',27:'D',28:'B',29:'C',30:'A'},
             3: {1:'C',2:'B',3:'B',4:'C',5:'A',6:'C',7:'A',8:'A',9:'A',10:'A',11:'A',12:'A',13:'C',14:'A',15:'C',16:'A',17:'B',18:'A',19:'C',20:'C',21:'A',22:'C',23:'B',24:'D',25:'A',26:'C',27:'D',28:'A',29:'B',30:'C'},
@@ -153,99 +239,319 @@
             20: {1:'C',2:'C',3:'C',4:'C',5:'B',6:'C',7:'B',8:'B',9:'C',10:'A',11:'A',12:'A',13:'C',14:'C',15:'A',16:'B',17:'A',18:'B',19:'A',20:'C',21:'B',22:'D',23:'A',24:'D',25:'C',26:'C',27:'A',28:'B',29:'B',30:'C'}
         };
 
-        // ========== QUESTIONS DATA ==========
-        const questionsDB = getQuestionsData();
+        let questionsDB = {};
 
         function getQuestionsData() {
+            const passages = {
+                1: { title: "OVERSTAYING VIETNAM VISAS", text: "According to Vietnam Immigration policy, foreigners wishing to enter Vietnam legally are required to have a valid Vietnam visa. However, in some cases, because of unexpected reasons, visa holders do not exit Vietnam or extend the visa even their Vietnam visas expire. In this case, foreigners will be penalized for their actions.\n\nIf traveler's visa has been expired no more than 3 days, besides visa extension fee, the holder must pay penalty fee for overstaying about 25 USD per day overstaying. For foreigners planning to exit Vietnam after overstaying for no more than 3 days, they can pay fine fee by themselves to Vietnam Immigration officer at ports of exit, and then leave the country.\n\nIf foreigner's visa has been expired for a long time, they are to get an exit visa or visa extension immediately. Exit visa allows them a specified period to leave Vietnam legally. In order to get an exit visa or visa extension, visa holders need to submit their original passports, then pay the fine fee and fee for extension or exit one. Normally, it takes 7 to 10 days to get an exit or extended visa.\n\nTo avoid any problems while living or exiting Vietnam, foreigners are advised to pay attention to their Vietnam visa valid duration. If they want to stay in the country longer their visa temporary period, foreigners should contact Vietnam Immigration Department to arrange visa extension or visa renewal before expiration date." },
+                2: { title: "VIETNAM AND CAMBODIA", text: "Vietnam and Cambodia are neighbors in Southeast Asia on the Indochina Peninsula. The two countries share a long border with a variety of crossings. Travel between the two countries is remarkably easy, with a variety of ways to travel, including flights, buses, cars and boats.\n\nVisas are required to travel from Vietnam into Cambodia; however, they are available on arrival at airports and border crossings. In order to qualify for a visa on arrival, you must have two passport-sized photographs with you, although if you don't, you may simply be fined a small amount and granted a visa anyway.\n\nNumerous land crossings are available between Vietnam and Cambodia. Many people travel from Ho Chi Minh City to Phnom Penh by bus, a trip that takes approximately six hours, including a border stop. This crossing is called Moc Bai on the Vietnamese side and Bavet on the Cambodian side. Additionally, at least seven other land border crossings are open between the two nations; private vehicles are allowed to cross at all points.\n\nThe Mekong River runs north to south through Cambodia before ending in Vietnam. River boat border crossings are available with brief stops on land to check passports and visas. Fast boat service is available from Chau Doc in Vietnam to Phnom Penh." }
+            };
+
             return {
                 1: {
-                    1: {text: "I laughed a lot because the movie was________", options: ['funny', 'excited', 'frightening', 'boring']},
-                    2: {text: "Please remember ________your hand during the test if you have a question.", options: ['raise', 'to raise', 'raising', 'to raising']},
-                    3: {text: "My brothers are working ________ for the exam.", options: ['hardly', 'hard', 'more hard', 'hardness']},
-                    4: {text: "My parents often goes to the countryside in their free time. The quiet and ________ atmosphere there calm them down.", options: ['polluted', 'peaceful', 'dirty', 'noisy']},
-                    5: {text: "When she was at university, my mum did a ________in Literature.", options: ['study', 'subject', 'degree', 'certificate']},
-                    6: {text: "They wanted to buy a drink, but the machine was out of ________", options: ['work', 'position', 'operation', 'order']},
-                    7: {text: "Passengers to Vietnam may ________ for a visa on arrival in certain situations", options: ['apply', 'ask', 'request', 'require']},
-                    8: {text: "The _____for a Vietnamese single visa is 25 USD, a multiple one is 50 USD", options: ['fee', 'price', 'cost', 'money']},
-                    9: {text: "Passengers are required to present their________ passports or travel documents, photos and an application form for visa issuance.", options: ['valid', 'invalid', 'expire', 'fraud']},
-                    10: {text: "Crews of a ship may stay in a hotel after they have ____from Port Border Guard.", options: ['permit', 'certificate', 'license', 'degree']},
-                    11: {text: "Câu 11 - Phần 2", options: ['A', 'B', 'C', 'D']},
-                    12: {text: "Câu 12 - Phần 2", options: ['A', 'B', 'C', 'D']},
-                    13: {text: "Câu 13 - Phần 2", options: ['A', 'B', 'C', 'D']},
-                    14: {text: "Câu 14 - Phần 2", options: ['A', 'B', 'C', 'D']},
-                    15: {text: "Câu 15 - Phần 2", options: ['A', 'B', 'C', 'D']},
-                    16: {text: "What happens if a foreigner fails to exit Vietnam or extend the visa when his or her Vietnam visa expired?", options: ['He/she will be penalized for their action.', 'He/ she will enter Vietnam legally.', 'He/ she will be sent to prison.', 'He/ she will visit Vietnam.']},
-                    17: {text: "Where can foreigners planning to exit Vietnam after overstaying for no more than 3 days pay fine fee?", options: ['at ports of exit', 'at ports of entry', 'at Vietnam Immigration Department', 'at the airport']},
-                    18: {text: "What does a foreigner do if his/her visa has been expired for a long time?", options: ['He/she must leave Vietnam immediately.', 'He/she must submit their original passports.', 'He/she must get an exit visa or visa extension immediately.', 'He/ she must enter Vietnam.']},
-                    19: {text: "How can a foreigner have his/her visa extended or renewed?", options: ['She/he should contact Vietnam Immigration Department to arrange visa extension or visa renewal before expiration date.', 'She/he should pay the fine fee and fee for extension or exit one.', 'She/he should submit his/her original passports, then pay the fine fee and fee for extension or exit one.', 'He/ she should complain.']},
-                    20: {text: "Where can a foreigner have his/her visa extended or renewed?", options: ['at ports of exit', 'at police station', 'at Vietnam Immigration Department', 'at the border checkpoint']},
-                    21: {text: "Câu 21 - Phần 4 (Cloze test)", options: ['the', 'one', 'a', 'an']},
-                    22: {text: "Câu 22 - Phần 4", options: ['said', 'made', 'could', 'put']},
-                    23: {text: "Câu 23 - Phần 4", options: ['opportunities', 'customs', 'classes', 'teachers']},
-                    24: {text: "Câu 24 - Phần 4", options: ['where', 'how', 'there', 'which']},
-                    25: {text: "Câu 25 - Phần 4", options: ['by', 'from', 'for', 'in']},
-                    26: {text: "Câu 26 - Phần 4", options: ['or', 'because', 'but', 'as']},
-                    27: {text: "Câu 27 - Phần 4", options: ['learnt', 'experimented', 'did', 'invented']},
-                    28: {text: "Câu 28 - Phần 4", options: ['time', 'period', 'year', 'day']},
-                    29: {text: "Câu 29 - Phần 4", options: ['anyone', 'nobody', 'all', 'something']},
-                    30: {text: "Câu 30 - Phần 4", options: ['was', 'had', 'has', 'is']}
+                    part1: [
+                        {text: "I laughed a lot because the movie was________", options: ['funny', 'excited', 'frightening', 'boring']},
+                        {text: "Please remember ________your hand during the test if you have a question.", options: ['raise', 'to raise', 'raising', 'to raising']},
+                        {text: "My brothers are working ________ for the exam.", options: ['hardly', 'hard', 'more hard', 'hardness']},
+                        {text: "My parents often goes to the countryside in their free time. The quiet and ________ atmosphere there calm them down.", options: ['polluted', 'peaceful', 'dirty', 'noisy']},
+                        {text: "When she was at university, my mum did a ________in Literature.", options: ['study', 'subject', 'degree', 'certificate']},
+                        {text: "They wanted to buy a drink, but the machine was out of ________", options: ['work', 'position', 'operation', 'order']},
+                        {text: "Passengers to Vietnam may ________ for a visa on arrival in certain situations", options: ['apply', 'ask', 'request', 'require']},
+                        {text: "The _____for a Vietnamese single visa is 25 USD, a multiple one is 50 USD", options: ['fee', 'price', 'cost', 'money']},
+                        {text: "Passengers are required to present their________ passports or travel documents, photos and an application form for visa issuance.", options: ['valid', 'invalid', 'expire', 'fraud']},
+                        {text: "Crews of a ship may stay in a hotel after they have ____from Port Border Guard.", options: ['permit', 'certificate', 'license', 'degree']}
+                    ],
+                    part2: [
+                        {text: "Câu 11 - PART 2: Sign Reading", options: ['A', 'B', 'C', 'D']},
+                        {text: "Câu 12 - PART 2: Sign Reading", options: ['A', 'B', 'C', 'D']},
+                        {text: "Câu 13 - PART 2: Sign Reading", options: ['A', 'B', 'C', 'D']},
+                        {text: "Câu 14 - PART 2: Sign Reading", options: ['A', 'B', 'C', 'D']},
+                        {text: "Câu 15 - PART 2: Sign Reading", options: ['A', 'B', 'C', 'D']}
+                    ],
+                    part3: [
+                        {text: "What happens if a foreigner fails to exit Vietnam or extend the visa when his or her Vietnam visa expired?", options: ['He/she will be penalized for their action.', 'He/she will enter Vietnam legally.', 'He/she will be sent to prison.', 'He/she will visit Vietnam.']},
+                        {text: "Where can foreigners planning to exit Vietnam after overstaying for no more than 3 days pay fine fee?", options: ['at ports of exit', 'at ports of entry', 'at Vietnam Immigration Department', 'at the airport']},
+                        {text: "What does a foreigner do if his/her visa has been expired for a long time?", options: ['He/she must leave Vietnam immediately.', 'He/she must submit their original passports.', 'He/she must get an exit visa or visa extension immediately.', 'He/she must enter Vietnam.']},
+                        {text: "How can a foreigner have his/her visa extended or renewed?", options: ['She/he should contact Vietnam Immigration Department to arrange visa extension or visa renewal before expiration date.', 'She/he should pay the fine fee and fee for extension or exit one.', 'She/he should submit his/her original passports, then pay the fine fee and fee for extension or exit one.', 'He/she should complain.']},
+                        {text: "Where can a foreigner have his/her visa extended or renewed?", options: ['at ports of exit', 'at police station', 'at Vietnam Immigration Department', 'at the border checkpoint']}
+                    ],
+                    part3_passage: passages[1],
+                    part4: [
+                        {text: "Câu 21 - PART 4: Cloze Test", options: ['the', 'one', 'a', 'an']},
+                        {text: "Câu 22 - PART 4: Cloze Test", options: ['said', 'made', 'could', 'put']},
+                        {text: "Câu 23 - PART 4: Cloze Test", options: ['opportunities', 'customs', 'classes', 'teachers']},
+                        {text: "Câu 24 - PART 4: Cloze Test", options: ['where', 'how', 'there', 'which']},
+                        {text: "Câu 25 - PART 4: Cloze Test", options: ['by', 'from', 'for', 'in']},
+                        {text: "Câu 26 - PART 4: Cloze Test", options: ['or', 'because', 'but', 'as']},
+                        {text: "Câu 27 - PART 4: Cloze Test", options: ['learnt', 'experimented', 'did', 'invented']},
+                        {text: "Câu 28 - PART 4: Cloze Test", options: ['time', 'period', 'year', 'day']},
+                        {text: "Câu 29 - PART 4: Cloze Test", options: ['anyone', 'nobody', 'all', 'something']},
+                        {text: "Câu 30 - PART 4: Cloze Test", options: ['was', 'had', 'has', 'is']}
+                    ]
                 },
                 2: {
-                    1: {text: "Participants ________ bring any special equipment as everything will be provided.", options: ["mustn't", "have to", "should", "needn't"]},
-                    2: {text: "They are laughing most of the time in a ________.", options: ['comedy', 'science fiction', 'documentary', 'soap opera']},
-                    3: {text: "My boyfriend fell over in front of everyone at dinner. It was so ________.", options: ['embarrassing', 'embarrassed', 'frightening', 'frightened']},
-                    4: {text: "How about ________to the theatre?", options: ['go', 'to go', 'going', 'to going']},
-                    5: {text: "If the company hadn't advertised, ____people would have known about the product.", options: ['a lot of', 'few', 'many', 'much']},
-                    6: {text: "\"I finally got all the books on the shelves.\" \"Look out! The ones on the top ______'.", options: ["are going to fall", "are falling", "will fall", "is going to fall"]},
-                    7: {text: "_____ of a ship may stay in a hotel after they have permit from Port Border Guards.", options: ['Crews', 'Pilots', 'License', 'Degree']},
-                    8: {text: "Drivers of vehicles entering or exiting through Vietnam border gates must have a valid passport or their valid papers and visas, driving ________ and other documents required by laws.", options: ['license', 'Certificate', 'Degree', 'Diploma']},
-                    9: {text: "Certificate of Registration is one of the required _________ for vehicles to enter and exit through border gates.", options: ['documents', 'passports', 'visas', 'paper']},
-                    10: {text: "The use of fraud passport or travel documents is _______ according to Vietnamese laws.", options: ['illegal', 'allowed', 'legal', 'acceptable']},
-                    11: {text: "Câu 11 - Phần 2", options: ['A', 'B', 'C', 'D']},
-                    12: {text: "Câu 12 - Phần 2", options: ['A', 'B', 'C', 'D']},
-                    13: {text: "Câu 13 - Phần 2", options: ['A', 'B', 'C', 'D']},
-                    14: {text: "Câu 14 - Phần 2", options: ['A', 'B', 'C', 'D']},
-                    15: {text: "Câu 15 - Phần 2", options: ['A', 'B', 'C', 'D']},
-                    16: {text: "By which ways can visitors travel from Vietnam to Cambodia?", options: ['flights, buses and cars', 'flights, cars and boats', 'flights, buses, cars and boats', 'motorbikes, buses, cars']},
-                    17: {text: "What do visitors do to have a Cambodian visa upon arrival?", options: ['Both A and B.', 'They must have two passport-sized photographs.', 'They must pay the fine a small amount.', 'They must do nothing.']},
-                    18: {text: "How long does it take a visitor to travel from Ho Chi Minh to Cambodia by bus?", options: ['takes 3 hours', 'takes 6 hours', 'takes between one to two hours', 'takes 2 hours']},
-                    19: {text: "What is the name of the border stop mentioned in land crossing paragraph?", options: ['Moc Bai on the Vietnamese side and Bavet on the Cambodian side.', 'Chau Doc on the Vietnamese side and Bavet on the Cambodian side.', 'Moc Bai on the Vietnamese side and Siem Reap on the Cambodian side.', 'Moc Bai on the Cambodian side and Chau Doc on the Vietnamese side.']},
-                    20: {text: "Where does fast boat service operate?", options: ['Fast boat service is available from Chau Doc in Vietnam to Phnom Penh.', 'Fast boat service is available from Moc Bai in Vietnam to Phnom Penh.', 'Fast boat service is available from Mekong River in Vietnam to Phnom Penh.', 'Fast boat service is available from Moc Chau in Vietnam.']},
-                    21: {text: "Câu 21 - Phần 4", options: ['popular', 'famous', 'favourite', 'current']},
-                    22: {text: "Câu 22 - Phần 4", options: ['baggage', 'equipment', 'property', 'tool']},
-                    23: {text: "Câu 23 - Phần 4", options: ['voyages', 'ways', 'directions', 'distances']},
-                    24: {text: "Câu 24 - Phần 4", options: ['by', 'on', 'at', 'of']},
-                    25: {text: "Câu 25 - Phần 4", options: ['make', 'take', 'pick', 'do']},
-                    26: {text: "Câu 26 - Phần 4", options: ['which', 'who', 'where', 'when']},
-                    27: {text: "Câu 27 - Phần 4", options: ['just', 'such', 'as', 'like']},
-                    28: {text: "Câu 28 - Phần 4", options: ['lonely', 'alone', 'single', 'separate']},
-                    29: {text: "Câu 29 - Phần 4", options: ['stay', 'remain', 'leave', 'let']},
-                    30: {text: "Câu 30 - Phần 4", options: ['wild', 'natural', 'loose', 'free']}
+                    part1: [
+                        {text: "Participants ________ bring any special equipment as everything will be provided.", options: ["mustn't", "have to", "should", "needn't"]},
+                        {text: "They are laughing most of the time in a ________.", options: ['comedy', 'science fiction', 'documentary', 'soap opera']},
+                        {text: "My boyfriend fell over in front of everyone at dinner. It was so ________.", options: ['embarrassing', 'embarrassed', 'frightening', 'frightened']},
+                        {text: "How about ________to the theatre?", options: ['go', 'to go', 'going', 'to going']},
+                        {text: "If the company hadn't advertised, ____people would have known about the product.", options: ['a lot of', 'few', 'many', 'much']},
+                        {text: "\"I finally got all the books on the shelves.\" \"Look out! The ones on the top ______'.", options: ["are going to fall", "are falling", "will fall", "is going to fall"]},
+                        {text: "_____ of a ship may stay in a hotel after they have permit from Port Border Guards.", options: ['Crews', 'Pilots', 'License', 'Degree']},
+                        {text: "Drivers of vehicles entering or exiting through Vietnam border gates must have a valid passport or their valid papers and visas, driving ________ and other documents required by laws.", options: ['license', 'Certificate', 'Degree', 'Diploma']},
+                        {text: "Certificate of Registration is one of the required _________ for vehicles to enter and exit through border gates.", options: ['documents', 'passports', 'visas', 'paper']},
+                        {text: "The use of fraud passport or travel documents is _______ according to Vietnamese laws.", options: ['illegal', 'allowed', 'legal', 'acceptable']}
+                    ],
+                    part2: [
+                        {text: "Câu 11 - PART 2: Sign Reading", options: ['A', 'B', 'C', 'D']},
+                        {text: "Câu 12 - PART 2: Sign Reading", options: ['A', 'B', 'C', 'D']},
+                        {text: "Câu 13 - PART 2: Sign Reading", options: ['A', 'B', 'C', 'D']},
+                        {text: "Câu 14 - PART 2: Sign Reading", options: ['A', 'B', 'C', 'D']},
+                        {text: "Câu 15 - PART 2: Sign Reading", options: ['A', 'B', 'C', 'D']}
+                    ],
+                    part3: [
+                        {text: "By which ways can visitors travel from Vietnam to Cambodia?", options: ['flights, buses and cars', 'flights, cars and boats', 'flights, buses, cars and boats', 'motorbikes, buses, cars']},
+                        {text: "What do visitors do to have a Cambodian visa upon arrival?", options: ['Both A and B.', 'They must have two passport-sized photographs.', 'They must pay the fine a small amount.', 'They must do nothing.']},
+                        {text: "How long does it take a visitor to travel from Ho Chi Minh to Cambodia by bus?", options: ['takes 3 hours', 'takes 6 hours', 'takes between one to two hours', 'takes 2 hours']},
+                        {text: "What is the name of the border stop mentioned in land crossing paragraph?", options: ['Moc Bai on the Vietnamese side and Bavet on the Cambodian side.', 'Chau Doc on the Vietnamese side and Bavet on the Cambodian side.', 'Moc Bai on the Vietnamese side and Siem Reap on the Cambodian side.', 'Moc Bai on the Cambodian side and Chau Doc on the Vietnamese side.']},
+                        {text: "Where does fast boat service operate?", options: ['Fast boat service is available from Chau Doc in Vietnam to Phnom Penh.', 'Fast boat service is available from Moc Bai in Vietnam to Phnom Penh.', 'Fast boat service is available from Mekong River in Vietnam to Phnom Penh.', 'Fast boat service is available from Moc Chau in Vietnam.']}
+                    ],
+                    part3_passage: passages[2],
+                    part4: [
+                        {text: "Câu 21 - PART 4: Cloze Test", options: ['popular', 'famous', 'favourite', 'current']},
+                        {text: "Câu 22 - PART 4: Cloze Test", options: ['baggage', 'equipment', 'property', 'tool']},
+                        {text: "Câu 23 - PART 4: Cloze Test", options: ['voyages', 'ways', 'directions', 'distances']},
+                        {text: "Câu 24 - PART 4: Cloze Test", options: ['by', 'on', 'at', 'of']},
+                        {text: "Câu 25 - PART 4: Cloze Test", options: ['make', 'take', 'pick', 'do']},
+                        {text: "Câu 26 - PART 4: Cloze Test", options: ['which', 'who', 'where', 'when']},
+                        {text: "Câu 27 - PART 4: Cloze Test", options: ['just', 'such', 'as', 'like']},
+                        {text: "Câu 28 - PART 4: Cloze Test", options: ['lonely', 'alone', 'single', 'separate']},
+                        {text: "Câu 29 - PART 4: Cloze Test", options: ['stay', 'remain', 'leave', 'let']},
+                        {text: "Câu 30 - PART 4: Cloze Test", options: ['wild', 'natural', 'loose', 'free']}
+                    ]
                 }
             };
         }
 
-        // Generate placeholder for tests 3-20
-        for (let t = 3; t <= 20; t++) {
-            questionsDB[t] = {};
-            for (let i = 1; i <= 30; i++) {
-                questionsDB[t][i] = {
-                    text: `Câu hỏi ${i} - Đề thi số ${t}`,
+        function createPlaceholderTest(testNum) {
+            return {
+                part1: Array(10).fill().map((_, i) => ({
+                    text: `Đề ${String(testNum).padStart(2, '0')} — Câu ${i + 1} (Part 1: Vocabulary & Grammar)`,
                     options: ['Đáp án A', 'Đáp án B', 'Đáp án C', 'Đáp án D']
+                })),
+                part2: Array(5).fill().map((_, i) => ({
+                    text: `Đề ${String(testNum).padStart(2, '0')} — Câu ${i + 11} (Part 2: Sign Reading)`,
+                    options: ['Đáp án A', 'Đáp án B', 'Đáp án C', 'Đáp án D']
+                })),
+                part3: Array(5).fill().map((_, i) => ({
+                    text: `Đề ${String(testNum).padStart(2, '0')} — Câu ${i + 16} (Part 3: Reading)`,
+                    options: ['Đáp án A', 'Đáp án B', 'Đáp án C', 'Đáp án D']
+                })),
+                part3_passage: { title: 'READING PASSAGE', text: 'Nội dung bài đọc đề này đang được cập nhật. Bạn vẫn có thể luyện tập và xem đáp án đúng ở chế độ Luyện tập.' },
+                part4: Array(10).fill().map((_, i) => ({
+                    text: `Đề ${String(testNum).padStart(2, '0')} — Câu ${i + 21} (Part 4: Cloze Test)`,
+                    options: ['Đáp án A', 'Đáp án B', 'Đáp án C', 'Đáp án D']
+                }))
+            };
+        }
+
+        function bankQuestionToItem(q) {
+            if (!q) return null;
+            return {
+                text: q.text || '',
+                sign: q.sign || '',
+                options: q.options
+                    ? [q.options.A, q.options.B, q.options.C, q.options.D]
+                    : ['A', 'B', 'C', 'D']
+            };
+        }
+
+        function buildQuestionsDBFromBank() {
+            const bank = window.EXAM_BANK;
+            if (!bank || !bank.tests) return null;
+            const db = {};
+            if (bank.answers) {
+                Object.keys(bank.answers).forEach((k) => {
+                    answerKeys[Number(k)] = {};
+                    Object.keys(bank.answers[k]).forEach((q) => {
+                        answerKeys[Number(k)][Number(q)] = bank.answers[k][q];
+                    });
+                });
+            }
+            for (let t = 1; t <= 20; t++) {
+                const test = bank.tests[String(t)];
+                if (!test) continue;
+                db[t] = {
+                    part1: [], part2: [], part3: [], part4: [],
+                    part3_passage: test.part3_passage || { title: 'READING PASSAGE', text: '' },
+                    part4_passage: test.part4_passage || { title: 'CLOZE TEST', text: '' }
                 };
+                for (let i = 1; i <= 30; i++) {
+                    const item = bankQuestionToItem(test.questions[String(i)]);
+                    if (!item) continue;
+                    if (i <= 10) db[t].part1.push(item);
+                    else if (i <= 15) db[t].part2.push(item);
+                    else if (i <= 20) db[t].part3.push(item);
+                    else db[t].part4.push(item);
+                }
+            }
+            // Merge Part 2 data from EXAM_BANK_PART2 (if available)
+            mergePart2Data(db);
+            return db;
+        }
+
+        function mergePart2Data(db) {
+            if (!window.EXAM_BANK_PART2) return;
+            for (let testKey in window.EXAM_BANK_PART2) {
+                const testNum = Number(testKey);
+                if (!db[testNum]) continue;
+                const testPart2 = window.EXAM_BANK_PART2[testKey];
+                for (let qKey in testPart2) {
+                    const qNum = Number(qKey);
+                    if (qNum < 11 || qNum > 15) continue;
+                    const part2Idx = qNum - 11;
+                    const signData = testPart2[qKey];
+                    db[testNum].part2[part2Idx] = {
+                        text: `Câu ${qNum} - PART 2: Sign Reading`,
+                        sign: signData.sign || '',
+                        options: [
+                            signData.options?.A || 'A',
+                            signData.options?.B || 'B',
+                            signData.options?.C || 'C',
+                            signData.options?.D || 'D'
+                        ]
+                    };
+                }
             }
         }
 
+        function buildQuestionsDB() {
+            const fromBank = buildQuestionsDBFromBank();
+            if (fromBank && Object.keys(fromBank).length >= 20) return fromBank;
+            const db = getQuestionsData();
+            for (let t = 3; t <= 20; t++) {
+                if (!db[t]) db[t] = createPlaceholderTest(t);
+            }
+            if (window.EXAM_QUESTIONS_EXTRA) {
+                Object.keys(window.EXAM_QUESTIONS_EXTRA).forEach((key) => {
+                    const testNum = Number(key);
+                    if (db[testNum]) mergeTestQuestions(db[testNum], window.EXAM_QUESTIONS_EXTRA[key]);
+                });
+            }
+            // Merge Part 2 data from EXAM_BANK_PART2
+            if (window.EXAM_BANK_PART2) {
+                Object.keys(window.EXAM_BANK_PART2).forEach((testKey) => {
+                    const testNum = Number(testKey);
+                    if (db[testNum] && window.EXAM_BANK_PART2[testKey]) {
+                        Object.keys(window.EXAM_BANK_PART2[testKey]).forEach((qKey) => {
+                            const qNum = Number(qKey);
+                            if (qNum >= 11 && qNum <= 15) {
+                                const part2Idx = qNum - 11;
+                                const signData = window.EXAM_BANK_PART2[testKey][qKey];
+                                db[testNum].part2[part2Idx] = {
+                                    text: `Câu ${qNum} - PART 2: Sign Reading`,
+                                    sign: signData.sign || '',
+                                    options: [signData.options.A, signData.options.B, signData.options.C, signData.options.D]
+                                };
+                            }
+                        });
+                    }
+                });
+            }
+            return db;
+        }
+
+        function mergeTestQuestions(target, jsonQuestions) {
+            if (!jsonQuestions) return;
+            for (let i = 1; i <= 30; i++) {
+                const q = jsonQuestions[String(i)] || jsonQuestions[i];
+                if (!q || !q.text) continue;
+                const item = {
+                    text: q.text,
+                    sign: q.sign || '',
+                    options: q.options
+                        ? [q.options.A, q.options.B, q.options.C, q.options.D]
+                        : (q.optionsList || ['A', 'B', 'C', 'D'])
+                };
+                if (i <= 10) target.part1[i - 1] = item;
+                else if (i <= 15) target.part2[i - 11] = item;
+                else if (i <= 20) target.part3[i - 16] = item;
+                else target.part4[i - 21] = item;
+            }
+            if (jsonQuestions.passage) target.part3_passage = jsonQuestions.passage;
+            if (jsonQuestions.part4_passage) target.part4_passage = jsonQuestions.part4_passage;
+        }
+
+        async function loadExternalData() {
+            try {
+                const res = await fetch('data.json');
+                if (!res.ok) return;
+                const data = await res.json();
+                if (data.answers) {
+                    Object.keys(data.answers).forEach((k) => {
+                        const num = Number(k);
+                        answerKeys[num] = {};
+                        Object.keys(data.answers[k]).forEach((q) => {
+                            answerKeys[num][Number(q)] = data.answers[k][q];
+                        });
+                    });
+                }
+                if (data.tests) {
+                    Object.keys(data.tests).forEach((k) => {
+                        const num = Number(k);
+                        if (!questionsDB[num]) questionsDB[num] = createPlaceholderTest(num);
+                        mergeTestQuestions(questionsDB[num], data.tests[k].questions);
+                        if (data.tests[k].passage) questionsDB[num].part3_passage = data.tests[k].passage;
+                    });
+                }
+            } catch (e) {
+                console.warn('Không tải được data.json — dùng dữ liệu nhúng sẵn.', e);
+            }
+        }
+
+        const PART_START = { 1: 1, 2: 11, 3: 16, 4: 21 };
+        const PART_META = {
+            1: { title: 'VOCABULARY & GRAMMAR', instruction: 'Choose the best answer (A, B, C or D) to complete each sentence.' },
+            2: { title: 'SIGN READING', instruction: 'Read the signs below and choose the best answer.' },
+            3: { title: 'READING COMPREHENSION', instruction: 'Read the text and questions below. Choose the correct answer.', icon: 'fa-glasses' },
+            4: { title: 'Cloze Test', instruction: 'Read the text below and choose the correct word for each space.', icon: 'fa-pen-nib' }
+        };
+        const EXAM_DURATION = 40 * 60;
+        const READING_TIPS = [
+            'Tìm từ khóa trong câu hỏi rồi quét nhanh bài đọc bên trái để tìm thông tin tương ứng.',
+            'Chú ý các cụm như "no more than", "expired", "penalty" — thường là manh mối quan trọng.',
+            'Câu hỏi "What does... do?" thường mô tả hành động bắt buộc — tìm động từ chính trong đoạn văn.',
+            'Câu hỏi "How can..." thường hỏi quy trình — đọc các bước theo thứ tự trong bài.',
+            'Câu hỏi "Where..." thường chỉ địa điểm — tìm tên nơi chốn hoặc cụm "at + place".'
+        ];
+
         let currentTest = null;
+        let pendingTest = null;
+        let quizMode = 'practice';
+        let currentPart = 1;
         let userAnswers = {};
         let isResultMode = false;
+        let timerInterval = null;
+        let timeRemaining = EXAM_DURATION;
+        let revealedAnswers = {};
 
-        // ========== INIT ==========
-        window.addEventListener('DOMContentLoaded', function() {
+        function escHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        window.addEventListener('DOMContentLoaded', async function() {
+            questionsDB = buildQuestionsDB();
+            await loadExternalData();
+            // Re-merge Part 2 data after external data is loaded to restore sign passages
+            mergePart2Data(questionsDB);
             setTimeout(() => {
                 document.getElementById('intro-screen').style.display = 'none';
                 renderMenu();
-            }, 3500);
+            }, 1200);
         });
 
         function renderMenu() {
@@ -254,67 +560,312 @@
             for (let i = 1; i <= 20; i++) {
                 const card = document.createElement('div');
                 card.className = 'test-card';
-                card.innerHTML = `<h3><i class="fas fa-book-open"></i> ĐỀ ${String(i).padStart(2, '0')}</h3><p>30 Câu Hỏi</p>`;
-                card.onclick = () => startTest(i);
+                card.innerHTML = `<h3><i class="fas fa-book-open"></i> ĐỀ ${String(i).padStart(2, '0')}</h3><p>30 Câu / 4 Parts</p>`;
+                card.onclick = () => openModeOverlay(i);
                 grid.appendChild(card);
             }
         }
 
-        function startTest(testNum) {
+        function getPassageData(passage) {
+            if (!passage) return { title: 'READING PASSAGE', text: '' };
+            if (typeof passage === 'string') return { title: 'READING PASSAGE', text: passage };
+            return passage;
+        }
+
+        function getPartStartQ(part) {
+            return PART_START[part];
+        }
+
+        function openModeOverlay(testNum) {
+            pendingTest = testNum;
+            document.getElementById('mode-test-label').textContent = String(testNum).padStart(2, '0');
+            document.getElementById('mode-overlay').classList.remove('hide');
+        }
+
+        function closeModeOverlay() {
+            pendingTest = null;
+            document.getElementById('mode-overlay').classList.add('hide');
+        }
+
+        function confirmStartTest(mode) {
+            if (!pendingTest) return;
+            const testNum = pendingTest;
+            closeModeOverlay();
+            startTest(testNum, mode);
+        }
+
+        function updateModeUI() {
+            const modeBadge = document.getElementById('mode-badge');
+            const timerBox = document.getElementById('timer-box');
+            if (quizMode === 'exam') {
+                modeBadge.textContent = '⏱ Thi thử';
+                modeBadge.classList.remove('hide');
+                timerBox.classList.remove('hide');
+            } else {
+                modeBadge.textContent = '📖 Luyện tập';
+                modeBadge.classList.remove('hide');
+                timerBox.classList.add('hide');
+            }
+        }
+
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        function updateTimerDisplay() {
+            const display = document.getElementById('timer-display');
+            const box = document.getElementById('timer-box');
+            display.textContent = formatTime(timeRemaining);
+            box.classList.toggle('warning', timeRemaining <= 300);
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function startTimer() {
+            stopTimer();
+            timeRemaining = EXAM_DURATION;
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+                if (timeRemaining <= 0) {
+                    stopTimer();
+                    alert('⏰ Hết thời gian! Bài thi sẽ được nộp tự động.');
+                    submitQuiz(true);
+                }
+            }, 1000);
+        }
+
+        function startTest(testNum, mode) {
             currentTest = testNum;
+            quizMode = mode || 'practice';
+            currentPart = 1;
             userAnswers = {};
+            revealedAnswers = {};
             isResultMode = false;
+            stopTimer();
             document.getElementById('main-menu').classList.add('hide');
             document.getElementById('quiz-screen').classList.remove('hide');
             document.getElementById('result-screen').classList.add('hide');
-            document.getElementById('nav-title').textContent = `ĐỀ THI ${String(testNum).padStart(2, '0')} | 30 Câu Hỏi`;
-            renderQuiz();
-            document.getElementById('quiz-content').scrollIntoView();
+            document.getElementById('test-num').textContent = String(testNum).padStart(2, '0');
+            updateModeUI();
+            if (quizMode === 'exam') startTimer();
+            renderPart();
         }
 
-        function renderQuiz() {
-            const content = document.getElementById('quiz-content');
-            const questions = questionsDB[currentTest];
-            let html = '';
+        function renderPartHeader(part) {
+            const meta = PART_META[part];
+            const icon = meta.icon ? `<i class="fas ${meta.icon}"></i>` : `<i class="fas fa-list-ol"></i>`;
+            return `<div class="part-header-bar">
+                <div class="part-header-title">${icon} PART ${part}: ${meta.title}</div>
+                <div class="part-badge">Phần ${part}/4</div>
+            </div>
+            <div class="part-instruction">${meta.instruction}</div>`;
+        }
 
-            for (let i = 1; i <= 30; i++) {
-                const q = questions[i];
-                const userAnswer = userAnswers[i];
-                const correctAnswer = answerKeys[currentTest][i];
-                const isCorrect = userAnswer === correctAnswer && userAnswer;
+        function renderQuestionBlock(q, qNum) {
+            const userAnswer = userAnswers[qNum];
+            const correctAnswer = answerKeys[currentTest] ? answerKeys[currentTest][qNum] : '';
+            const isCorrect = userAnswer === correctAnswer && userAnswer;
+            const showFeedback = (quizMode === 'practice' && (userAnswer || revealedAnswers[qNum])) || isResultMode;
+            const showTip = currentPart === 3 && !isResultMode && quizMode === 'practice';
+            const showAnswerBtn = quizMode === 'practice' && !isResultMode && !revealedAnswers[qNum] && !userAnswer;
+            const correctIdx = ['A', 'B', 'C', 'D'].indexOf(correctAnswer);
+            const correctText = correctIdx >= 0 ? q.options[correctIdx] : '';
 
-                html += `<div class="question-block">
-                    <div class="question-text"><strong>Câu ${i}:</strong> ${q.text}</div>
-                    <div class="options">`;
-                
-                ['A', 'B', 'C', 'D'].forEach((opt, idx) => {
-                    const isSelected = userAnswer === opt;
-                    let cls = 'option';
-                    if (isSelected) cls += ' selected';
-                    if (isResultMode && isSelected) {
-                        cls += isCorrect ? ' correct' : ' wrong';
-                    }
-                    html += `<div class="${cls}" onclick="selectAnswer(${i}, '${opt}')" style="pointer-events: ${isResultMode ? 'none' : 'auto'}"><strong>${opt}.</strong> ${q.options[idx]}</div>`;
-                });
-                html += `</div></div>`;
+            let actionBtns = '';
+            if (showTip || showAnswerBtn) {
+                actionBtns = '<div class="question-actions">';
+                if (showTip) actionBtns += `<button type="button" class="tip-btn" onclick="showTip(${qNum}, event)"><i class="fas fa-lightbulb"></i> Mẹo</button>`;
+                if (showAnswerBtn) actionBtns += `<button type="button" class="show-ans-btn" onclick="revealAnswer(${qNum}, event)"><i class="fas fa-check-circle"></i> Đáp án</button>`;
+                actionBtns += '</div>';
             }
-            content.innerHTML = html;
+
+            let html = `<div class="question-block">`;
+            if (currentPart === 4) {
+                html += `<div class="cloze-q-label">Câu ${qNum}: <span class="q-en">${escHtml(q.text)}</span></div>`;
+                if (actionBtns) html += `<div class="question-header" style="margin-bottom:8px;justify-content:flex-end;">${actionBtns}</div>`;
+            } else {
+                html += `<div class="question-header">
+                    <div class="question-text"><span class="question-num">Câu ${qNum}:</span> ${escHtml(q.text)}</div>
+                    ${actionBtns}
+                </div>`;
+                if (q.sign) html += `<div class="sign-box">${escHtml(q.sign)}</div>`;
+            }
+            html += `<div class="options">`;
+            ['A','B','C','D'].forEach((opt, optIdx) => {
+                const isSelected = userAnswer === opt;
+                let cls = 'option';
+                if (showFeedback) {
+                    if (opt === correctAnswer && correctAnswer) cls += ' correct';
+                    else if (isSelected) cls += ' wrong';
+                } else if (isSelected) {
+                    cls += ' selected';
+                }
+                html += `<div class="${cls}" onclick="selectAnswer(${qNum}, '${opt}')" style="pointer-events: ${isResultMode ? 'none' : 'auto'}"><strong>${opt}.</strong> ${escHtml(q.options[optIdx])}</div>`;
+            });
+            html += '</div>';
+            if (showFeedback && correctAnswer) {
+                if (userAnswer && userAnswer !== correctAnswer) {
+                    html += `<div class="answer-reveal wrong-pick">Bạn chọn ${userAnswer} — chưa đúng</div>`;
+                }
+                html += `<div class="answer-reveal">✓ Đáp án đúng: <strong>${correctAnswer}. ${escHtml(correctText)}</strong></div>`;
+            } else if (revealedAnswers[qNum] && correctAnswer) {
+                html += `<div class="answer-reveal">✓ Đáp án đúng: <strong>${correctAnswer}. ${escHtml(correctText)}</strong></div>`;
+            }
+            html += '</div>';
+            return html;
         }
+
+        function revealAnswer(qNum, event) {
+            event.stopPropagation();
+            revealedAnswers[qNum] = true;
+            renderPart();
+        }
+
+        function renderPartNav() {
+            if (isResultMode) return '';
+            return `<div class="part-nav">
+                <button class="btn btn-primary btn-sm" onclick="prevPart()" ${currentPart === 1 ? 'style="opacity: 0.5; cursor: not-allowed;" disabled' : ''}><i class="fas fa-arrow-left"></i> Quay Lại</button>
+                <span style="color: var(--text-muted); font-weight: bold;">Phần ${currentPart}/4</span>
+                <button class="btn btn-primary btn-sm" onclick="nextPart()" ${currentPart === 4 ? 'style="opacity: 0.5; cursor: not-allowed;" disabled' : ''}><i class="fas fa-arrow-right"></i> Tiếp Theo</button>
+            </div>`;
+        }
+
+        function renderPart() {
+            const content = document.getElementById('quiz-content');
+            const test = questionsDB[currentTest];
+            if (!test) {
+                content.innerHTML = `<div class="card"><p style="color:var(--danger);font-weight:700;">Không tìm thấy dữ liệu đề ${currentTest}. Vui lòng tải lại trang.</p></div>`;
+                return;
+            }
+            const questions = test[`part${currentPart}`];
+            if (!questions || !questions.length) {
+                content.innerHTML = `<div class="card"><p style="color:var(--danger);font-weight:700;">Không có câu hỏi cho phần ${currentPart}.</p></div>`;
+                return;
+            }
+            const startQ = getPartStartQ(currentPart);
+            const passage = currentPart === 4
+                ? getPassageData(test.part4_passage)
+                : getPassageData(test.part3_passage);
+
+            document.getElementById('part-display').textContent = `Phần ${currentPart}/4`;
+            document.getElementById('question-progress').textContent = `Câu ${startQ}-${startQ + questions.length - 1}`;
+
+            let html = '';
+            if (currentPart === 3) {
+                html = `<div class="card" style="padding: 28px;">
+                    ${renderPartHeader(3)}
+                    <div class="part-container">
+                        <div class="passage-section">
+                            <div class="passage-heading">${passage.title}</div>
+                            <div class="passage-text">${passage.text.split('\n\n').map(p => `<p>${escHtml(p)}</p>`).join('')}</div>
+                        </div>
+                        <div class="questions-section">`;
+                questions.forEach((q, idx) => {
+                    html += renderQuestionBlock(q, startQ + idx);
+                });
+                html += `</div></div>${renderPartNav()}</div>`;
+            } else if (currentPart === 4) {
+                html = `<div class="card" style="padding: 28px;">
+                    ${renderPartHeader(4)}
+                    <div class="part-container">
+                        <div class="passage-section cloze-passage">
+                            <div class="passage-heading">${escHtml(passage.title)}</div>
+                            <div class="passage-text">${passage.text.split('\n\n').map(p => `<p>${escHtml(p)}</p>`).join('')}</div>
+                        </div>
+                        <div class="questions-section cloze-questions">`;
+                questions.forEach((q, idx) => {
+                    html += renderQuestionBlock(q, startQ + idx);
+                });
+                html += `</div></div>${renderPartNav()}</div>`;
+            } else {
+                html = `<div class="card" style="padding: 28px;">
+                    ${renderPartHeader(currentPart)}
+                    <div class="questions-section" style="max-height: none;">`;
+                questions.forEach((q, idx) => {
+                    html += renderQuestionBlock(q, startQ + idx);
+                });
+                html += `</div>${renderPartNav()}</div>`;
+            }
+
+            content.innerHTML = html;
+            document.getElementById('quiz-screen').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function showTip(qNum, event) {
+            event.stopPropagation();
+            closeTip();
+            const tipIndex = (qNum - 16) % READING_TIPS.length;
+            const popup = document.createElement('div');
+            popup.className = 'tip-popup';
+            popup.id = 'active-tip';
+            popup.innerHTML = `<strong>💡 Mẹo câu ${qNum}</strong>${READING_TIPS[tipIndex]}<button type="button" class="btn btn-sm btn-primary" style="margin-top: 12px; width: 100%;" onclick="closeTip()">Đóng</button>`;
+            document.body.appendChild(popup);
+            requestAnimationFrame(() => {
+                const rect = event.currentTarget.getBoundingClientRect();
+                const top = Math.min(rect.bottom + 8, window.innerHeight - popup.offsetHeight - 16);
+                const left = Math.min(rect.left, window.innerWidth - popup.offsetWidth - 16);
+                popup.style.top = `${Math.max(16, top)}px`;
+                popup.style.left = `${Math.max(16, left)}px`;
+            });
+        }
+
+        function closeTip() {
+            const tip = document.getElementById('active-tip');
+            if (tip) tip.remove();
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.tip-btn') && !e.target.closest('.tip-popup')) closeTip();
+        });
 
         function selectAnswer(qNum, answer) {
             if (!isResultMode) {
                 userAnswers[qNum] = answer;
-                renderQuiz();
+                renderPart();
             }
         }
 
-        function submitQuiz() {
+        function nextPart() {
+            if (currentPart < 4) {
+                currentPart++;
+                renderPart();
+            }
+        }
+
+        function prevPart() {
+            if (currentPart > 1) {
+                currentPart--;
+                renderPart();
+            }
+        }
+
+        function submitQuiz(autoSubmit) {
+            if (isResultMode) return;
+            stopTimer();
+            closeTip();
+            if (!autoSubmit && quizMode === 'exam') {
+                const unanswered = 30 - Object.keys(userAnswers).length;
+                if (unanswered > 0 && !confirm(`Bạn còn ${unanswered} câu chưa trả lời. Bạn có chắc muốn nộp bài?`)) return;
+            }
             isResultMode = true;
             let score = 0;
             const wrongAnswers = [];
 
             for (let i = 1; i <= 30; i++) {
                 const correct = answerKeys[currentTest][i];
+                const test = questionsDB[currentTest];
+                const allQuestions = [...test.part1, ...test.part2, ...test.part3, ...test.part4];
+                const q = allQuestions[i - 1];
+
                 if (userAnswers[i] && userAnswers[i] === correct) {
                     score++;
                 } else if (!userAnswers[i] || userAnswers[i] !== correct) {
@@ -322,7 +873,8 @@
                         qNum: i,
                         userAnswer: userAnswers[i] || 'Không trả lời',
                         correctAnswer: correct,
-                        questionText: questionsDB[currentTest][i].text
+                        questionText: q ? q.text : `Câu ${i}`,
+                        options: q ? q.options : ['A', 'B', 'C', 'D']
                     });
                 }
             }
@@ -340,7 +892,6 @@
             document.getElementById('score-message').textContent = message;
             document.getElementById('wrong-count').textContent = wrongAnswers.length;
 
-            // Render review grid
             let reviewHTML = '';
             for (let i = 1; i <= 30; i++) {
                 const ans = userAnswers[i];
@@ -351,40 +902,37 @@
             }
             document.getElementById('review-grid').innerHTML = reviewHTML;
 
-            // Render wrong answers list
             let wrongHTML = '';
             if (wrongAnswers.length === 0) {
                 wrongHTML = '<p style="color: var(--success); text-align: center; padding: 20px; font-weight: bold;">🎊 Bạn đã trả lời hết bài! Không có câu sai.</p>';
             } else {
                 wrongAnswers.forEach(w => {
-                    const optionsText = questionsDB[currentTest][w.qNum].options;
                     const userOptIdx = ['A','B','C','D'].indexOf(w.userAnswer);
                     const correctOptIdx = ['A','B','C','D'].indexOf(w.correctAnswer);
-                    wrongHTML += `
-                        <div class="wrong-answer-item">
-                            <h4>❌ Câu ${w.qNum}</h4>
-                            <p style="margin-bottom: 10px; font-size: 0.95rem;"><strong>${w.questionText}</strong></p>
-                            <div class="answer-row">
-                                <span class="answer-label">Bạn chọn:</span>
-                                <span class="answer-value user-ans">${w.userAnswer !== 'Không trả lời' ? w.userAnswer + '. ' + optionsText[userOptIdx] : 'Không trả lời'}</span>
-                            </div>
-                            <div class="answer-row">
-                                <span class="answer-label">Đáp án đúng:</span>
-                                <span class="answer-value correct-ans">${w.correctAnswer}. ${optionsText[correctOptIdx]}</span>
-                            </div>
+                    wrongHTML += `<div class="wrong-answer-item">
+                        <h4>❌ Câu ${w.qNum}</h4>
+                        <p style="margin-bottom: 10px; font-size: 0.9rem;"><strong>${w.questionText}</strong></p>
+                        <div class="answer-row">
+                            <span class="answer-label">Bạn chọn:</span>
+                            <span class="answer-value user-ans">${w.userAnswer !== 'Không trả lời' ? w.userAnswer + '. ' + w.options[userOptIdx] : 'Không trả lời'}</span>
                         </div>
-                    `;
+                        <div class="answer-row">
+                            <span class="answer-label">Đáp án đúng:</span>
+                            <span class="answer-value correct-ans">${w.correctAnswer}. ${w.options[correctOptIdx]}</span>
+                        </div>
+                    </div>`;
                 });
             }
             document.getElementById('wrong-answers-list').innerHTML = wrongHTML;
 
-            renderQuiz();
             document.getElementById('quiz-screen').classList.add('hide');
             document.getElementById('result-screen').classList.remove('hide');
             document.getElementById('result-screen').scrollIntoView();
         }
 
         function backToMenu() {
+            stopTimer();
+            closeTip();
             document.getElementById('main-menu').classList.remove('hide');
             document.getElementById('quiz-screen').classList.add('hide');
             document.getElementById('result-screen').classList.add('hide');
