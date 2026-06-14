@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Luyện Thi Tiếng Anh - Biên Phòng ProMax</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* Light Theme - Military */
+            --primary: #2b5329; 
+            --primary-hover: #1e3b1d;
+            --accent: #d4af37; 
+            --success: #27ae60;
+            --danger: #c0392b;
+            --bg-body: #f0f4f1;
+            --bg-card: #ffffff;
+            --text-main: #1a251a;
+            --text-muted: #5c6e5a;
+            --border: #cdd5cb;
+            --hint-bg: #fffde7;
+            --watermark-bg: rgba(43, 83, 41, 0.85);
+            --watermark-glow: rgba(212, 175, 55, 0.6);
+            --shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme */
+            --primary: #4b8b3b;
+            --primary-hover: #60a84e;
+            --accent: #ffd700;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --bg-body: #0a0f0b;
+            --bg-card: #141d15;
+            --text-main: #e8eee8;
+            --text-muted: #8c9e8a;
+            --border: #2b3a2a;
+            --hint-bg: #222b22;
+            --watermark-bg: rgba(20, 29, 21, 0.9);
+            --watermark-glow: rgba(255, 215, 0, 0.8);
+            --shadow: 0 8px 25px rgba(0,0,0,0.5);
+        }
+
+        body, .card, .navbar, .btn, .option, .hint-box, .menu-item, #sidebar {
+            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+
+        /* Intro Animation */
+        #intro-screen {
+            position: fixed; inset: 0; z-index: 10005; background: var(--bg-body);
+            display: flex; align-items: center; justify-content: center; flex-direction: column;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s;
+        }
+        .intro-text {
+            color: var(--primary); font-size: 3.5rem; font-weight: 900; text-transform: uppercase;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.15); text-align: center;
+            animation: introPop 3.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            position: relative; z-index: 2;
+        }
+        .intro-manh-river {
+            font-size: 5rem; color: var(--accent); font-weight: 900; text-transform: uppercase;
+            position: absolute; top: 55%;
+            text-shadow: 0 5px 25px rgba(212, 175, 55, 0.6);
+            animation: fallDown 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; 
+            animation-delay: 0.6s; opacity: 0; transform: translateY(-300px);
+            z-index: 3;
+        }
+
+        @keyframes introPop { 0% { transform: scale(0.5); opacity: 0; } 15% { transform: scale(1.1); opacity: 1; } 80% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; filter: blur(10px); } }
+        @keyframes fallDown { 0% { transform: translateY(-300px); opacity: 0; } 50% { transform: translateY(20px); opacity: 1; } 70% { transform: translateY(-10px); opacity: 1; } 100% { transform: translateY(0); opacity: 1; } }
+
+        /* Watermark */
+        .watermark-badge {
+            position: fixed; bottom: 30px; right: 30px; z-index: 9990; pointer-events: none;
+            background: var(--watermark-bg); color: var(--accent);
+            padding: 10px 25px; border-radius: 8px; border: 2px solid var(--accent);
+            font-size: 1.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 3px;
+            display: flex; align-items: center; gap: 10px; backdrop-filter: blur(5px);
+            animation: badgeGlow 2.5s infinite alternate ease-in-out;
+        }
+        @keyframes badgeGlow { 0% { box-shadow: 0 0 5px var(--watermark-glow), inset 0 0 2px var(--watermark-glow); text-shadow: 0 0 2px var(--watermark-glow); transform: translateY(0); } 100% { box-shadow: 0 0 20px var(--watermark-glow), inset 0 0 8px var(--watermark-glow); text-shadow: 0 0 10px var(--accent); transform: translateY(-3px); } }
+
+        /* Floating Buttons */
+        .fab-container { position: fixed; bottom: 30px; left: 30px; z-index: 10000; display: flex; flex-direction: column; gap: 15px; }
+        .fab-btn {
+            width: 55px; height: 55px; border-radius: 50%; color: white; border: 2px solid var(--accent);
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .theme-fab { background: var(--primary); }
+        .theme-fab:hover { transform: scale(1.15) rotate(15deg); background: var(--primary-hover); }
+        .stress-fab { background: var(--danger); }
+        .stress-fab:hover { transform: scale(1.2) rotate(-15deg); background: #8e1f15; }
+
+        /* Layout */
+        .container { max-width: 1000px; margin: 40px auto; padding: 20px; position: relative; z-index: 10; }
+        .card { background: var(--bg-card); border-radius: 12px; padding: 35px; box-shadow: var(--shadow); margin-bottom: 25px; border-top: 5px solid var(--primary); }
+
+        /* Header & Menu */
+        .navbar { display: flex; justify-content: space-between; align-items: center; background: var(--primary); color: white; padding: 15px 25px; border-radius: 12px; margin-bottom: 25px; box-shadow: var(--shadow); position: sticky; top: 10px; z-index: 998; }
+        .nav-title { font-weight: bold; font-size: 1.3rem; display: flex; align-items: center; gap: 10px; }
+        .icon-btn { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; transition: 0.3s; }
+        .icon-btn:hover { color: var(--accent); transform: scale(1.2); }
+
+        /* Sidebar Menu */
+        #sidebar { position: fixed; top: 0; right: -320px; width: 320px; height: 100vh; background: var(--bg-card); box-shadow: -5px 0 25px rgba(0,0,0,0.3); z-index: 9995; transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); padding: 25px; overflow-y: auto; }
+        #sidebar.active { right: 0; }
+        .menu-item { display: block; width: 100%; padding: 15px; margin-bottom: 12px; background: var(--bg-body); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; text-align: left; font-weight: 600; color: var(--text-main); }
+        .menu-item:hover { background: var(--primary); color: white; transform: translateX(5px); }
+        .menu-item.active-part { background: var(--primary); color: white; border-color: var(--accent); }
+
+        /* Test Selection Grid */
+        .test-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px; }
+        .test-card { background: var(--bg-body); border: 2px solid var(--border); border-radius: 10px; padding: 25px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .test-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); background: var(--primary); color: white; }
+        .test-card:hover h3, .test-card:hover p { color: white; }
+        .test-card h3 { color: var(--primary); font-size: 1.5rem; margin-bottom: 10px; }
+        .test-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 28px; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); text-align: center; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(43, 83, 41, 0.4); }
+        .btn-accent { background: var(--accent); color: #000; }
+        .btn-accent:hover { background: #b8962e; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-danger:hover { background: #a83226; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(192, 57, 43, 0.4); }
+
+        /* Split layout */
+        @media (min-width: 850px) {
+            .reading-layout { display: flex; gap: 25px; align-items: flex-start; }
+            .reading-passage-container { flex: 1.1; position: sticky; top: 80px; max-height: calc(100vh - 120px); overflow-y: auto; }
+            .questions-container { flex: 1; }
+        }
+        @media (max-width: 849px) { .reading-passage-container { margin-bottom: 25px; max-height: 400px; overflow-y: auto; } }
+
+        .reading-passage {
+            background: rgba(0,0,0,0.03); padding: 25px; border-radius: 10px; 
+            border-left: 5px solid var(--primary); font-size: 1.1rem; line-height: 1.8; color: var(--text-main);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05); text-align: justify;
+        }
+        .reading-passage-container::-webkit-scrollbar { width: 6px; }
+        .reading-passage-container::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+
+        /* Quiz UI */
+        .timer { font-size: 1.4rem; font-weight: bold; color: var(--danger); background: var(--bg-card); padding: 5px 15px; border-radius: 20px; border: 2px solid var(--danger); }
+        .part-title { font-size: 1.6rem; color: var(--primary); margin-top: 10px; margin-bottom: 20px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .question-block { margin-bottom: 40px; scroll-margin-top: 100px; }
+        .question-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+        .question-text { font-weight: 600; font-size: 1.15rem; flex-grow: 1; }
+        
+        /* Options */
+        .options { display: grid; gap: 12px; }
+        .option { padding: 14px 20px; border: 2px solid var(--border); border-radius: 10px; cursor: pointer; background: var(--bg-card); position: relative; overflow: hidden; display: flex; justify-content: space-between; align-items: center; transition: all 0.25s ease; }
+        .option:hover:not(.disabled) { border-color: var(--primary); transform: translateX(5px); }
+        .option.selected { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary) inset; font-weight: bold; background: rgba(43, 83, 41, 0.05); }
+        .option.correct { border-color: var(--success) !important; background: rgba(39, 174, 96, 0.15) !important; color: var(--success); font-weight: bold; animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .option.wrong { border-color: var(--danger) !important; background: rgba(192, 57, 43, 0.1) !important; color: var(--danger); animation: shakeSmooth 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
+        .option.disabled { cursor: not-allowed; pointer-events: none; opacity: 0.9; }
+        
+        .opt-icon { font-size: 1.3rem; display: none; }
+        .option.correct .opt-icon.fa-check-circle { display: block; }
+        .option.wrong .opt-icon.fa-times-circle { display: block; }
+
+        /* Hints */
+        .btn-hint { background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 20px; padding: 4px 12px; font-size: 0.9rem; font-weight: bold; cursor: pointer; margin-left: 10px; white-space: nowrap; transition: 0.3s; }
+        .btn-hint:hover { background: var(--accent); color: #000; transform: scale(1.05); }
+        .hint-box { display: none; background: var(--hint-bg); border-left: 5px solid var(--accent); padding: 12px 18px; border-radius: 6px; margin-bottom: 20px; font-size: 1rem; font-style: italic; animation: slideDown 0.4s ease-out; }
+
+        /* Review Grid */
+        .review-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); gap: 12px; margin-top: 20px; }
+        .review-item { width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; color: white; cursor: pointer; text-decoration: none; transition: 0.3s; }
+        .review-item:hover { transform: scale(1.15); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .review-item.correct { background: var(--success); }
+        .review-item.wrong { background: var(--danger); }
+        .review-item.unanswered { background: var(--text-muted); }
+
+        .hide { display: none !important; }
+
+        /* Animation Stress Relief */
+        @keyframes shakeSmooth { 0% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } 100% { transform: translateX(0); } }
+        @keyframes popIn { 0% { transform: scale(0.9); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .body-shake { animation: bigShake 0.5s ease-in-out; }
+        @keyframes bigShake { 0% { transform: translate(10px, 10px) rotate(1deg); } 20% { transform: translate(-10px, -10px) rotate(-1deg); } 40% { transform: translate(10px, -10px) rotate(1deg); } 60% { transform: translate(-10px, 10px) rotate(-1deg); } 80% { transform: translate(5px, 5px) rotate(0.5deg); } 100% { transform: translate(0, 0) rotate(0); } }
+        
+        .particle { position: fixed; top: -50px; font-size: 2rem; pointer-events: none; z-index: 10001; animation: fallDownParticle linear forwards; }
+        @keyframes fallDownParticle { 0% { transform: translateY(-50px) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
+
+    </style>
+</head>
+<body>
+
+    <div id="intro-screen">
+        <div class="intro-text"><i class="fas fa-star" style="color: var(--accent);"></i> Chúc Các Bạn Thi Tốt! <i class="fas fa-star" style="color: var(--accent);"></i></div>
+        <div class="intro-manh-river">MẠNH RIVER</div>
+    </div>
+
+    <div class="watermark-badge">
+        <i class="fas fa-shield-alt"></i> MẠNH RIVER
+    </div>
+
+    <div class="fab-container">
+        <button class="fab-btn stress-fab" onclick="triggerStressRelief()" title="Gõ Búa Giảm Stress!">
+            <i class="fas fa-hammer"></i>
+        </button>
+        <button class="fab-btn theme-fab" onclick="toggleTheme()" title="Đổi giao diện Sáng/Tối">
+            <i class="fas fa-moon" id="theme-icon"></i>
+        </button>
+    </div>
+
+    <div id="sidebar">
+        <div style="text-align: right; margin-bottom: 20px;">
+            <button class="icon-btn" onclick="toggleMenu()" style="color: var(--text-main);"><i class="fas fa-times"></i></button>
+        </div>
+        <h3 style="margin-bottom: 20px; color: var(--primary);"><i class="fas fa-crosshairs"></i> Điều Hướng Nhanh</h3>
+        <div id="menu-links"></div>
+        <hr style="border: 0; border-top: 1px solid var(--border); margin: 25px 0;">
+        <button class="menu-item" style="color: var(--danger); border-color: var(--danger);" onclick="exitTask()"><i class="fas fa-sign-out-alt"></i> Thoát Nhiệm Vụ</button>
+    </div>
+
+    <div class="container">
+        <div id="main-menu-screen" class="card" style="text-align: center; padding: 50px 20px;">
+            <i class="fas fa-shield-alt" style="font-size: 5rem; color: var(--accent); margin-bottom: 20px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));"></i>
+            <h1 style="color: var(--primary); margin-bottom: 10px; text-transform: uppercase;">Trung Tâm Huấn Luyện</h1>
+            <p style="color: var(--text-muted); margin-bottom: 30px; font-size: 1.1rem; font-weight: bold;">BỘ TƯ LỆNH BỘ ĐỘI BIÊN PHÒNG</p>
+            
+            <h2 style="margin-bottom: 20px;">Vui Lòng Chọn Nhiệm Vụ:</h2>
+            <div class="test-grid">
+                <div class="test-card" onclick="selectTest('t01', 'Đề Thi Số 01')">
+                    <h3><i class="fas fa-file-alt"></i> ĐỀ THI SỐ 01</h3>
+                    <p>Vocabulary, Signs, Reading, Cloze Test</p>
+                </div>
+                <div class="test-card" onclick="selectTest('t02', 'Đề Thi Số 02')">
+                    <h3><i class="fas fa-file-alt"></i> ĐỀ THI SỐ 02</h3>
+                    <p>Vocabulary, Signs, Reading, Cloze Test</p>
+                </div>
+                <div class="test-card" onclick="selectTest('t03', 'Đề Thi Số 03')">
+                    <h3><i class="fas fa-file-alt"></i> ĐỀ THI SỐ 03</h3>
+                    <p>Vocabulary, Signs, Reading, Cloze Test</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="start-screen" class="card hide" style="text-align: center; padding: 60px 20px;">
+            <i class="fas fa-crosshairs" style="font-size: 4rem; color: var(--accent); margin-bottom: 20px;"></i>
+            <h1 id="selected-test-title" style="color: var(--primary); margin-bottom: 10px; text-transform: uppercase;">ĐỀ THI...</h1>
+            <p style="color: var(--text-muted); margin-bottom: 40px; font-size: 1.1rem;">Lựa chọn phương thức triển khai nhiệm vụ</p>
+            
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="startQuiz('exam')" style="font-size: 1.1rem;"><i class="fas fa-stopwatch"></i> Bắt Đầu Thi (40 Phút)</button>
+                <button class="btn btn-accent" onclick="startQuiz('practice')" style="font-size: 1.1rem;"><i class="fas fa-check-double"></i> Chế Độ Luyện Tập</button>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="btn" style="background: transparent; color: var(--text-muted); border: 1px solid var(--border);" onclick="backToMenu()"><i class="fas fa-arrow-left"></i> Quay Lại Kho Đề</button>
+            </div>
+        </div>
+
+        <div id="quiz-screen" class="hide">
+            <div class="navbar">
+                <div class="nav-title"><i class="fas fa-shield-alt"></i> <span id="nav-test-name">Đề Thi</span></div>
+                <div style="display: flex; gap: 20px; align-items: center;">
+                    <span id="timer" class="timer hide">40:00</span>
+                    <button class="icon-btn" onclick="toggleMenu()" title="Mở Menu"><i class="fas fa-bars"></i></button>
+                </div>
+            </div>
+            <div id="quiz-content"></div>
+        </div>
+
+        <div id="result-screen" class="card hide" style="text-align: center;">
+            <i class="fas fa-medal" style="font-size: 5rem; color: var(--accent); margin-bottom: 20px; filter: drop-shadow(0 4px 10px rgba(212,175,55,0.4));"></i>
+            <h1 style="color: var(--primary);">Hoàn Thành Nhiệm Vụ!</h1>
+            <div style="font-size: 5rem; font-weight: 900; color: var(--primary); margin: 20px 0;"><span id="final-score">0</span><span style="font-size: 2.5rem; color: var(--text-muted);">/30</span></div>
+            <p id="result-message" style="font-size: 1.3rem; margin-bottom: 30px; font-weight: bold;"></p>
+            
+            <div style="text-align: left; background: var(--bg-body); padding: 25px; border-radius: 10px; margin-bottom: 30px; border: 1px solid var(--border);">
+                <h3 style="color: var(--primary); margin-bottom: 10px;"><i class="fas fa-search"></i> Bảng Tổng Kết (Xem Lại Câu)</h3>
+                <p style="font-size: 0.95rem; color: var(--text-muted);">Nhấp vào số thứ tự để di chuyển đến câu và xem chi tiết đáp án / mẹo.</p>
+                <div id="review-grid" class="review-grid"></div>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="viewAnswers()"><i class="fas fa-eye"></i> Xem Lại Bài</button>
+                <button class="btn btn-accent" onclick="exitTask()"><i class="fas fa-redo"></i> Về Menu Chính</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Intro Animation
+        setTimeout(() => {
+            const intro = document.getElementById('intro-screen');
+            intro.style.opacity = '0';
+            setTimeout(() => intro.style.display = 'none', 800);
+        }, 3800);
+
+        // DATA CỦA TẤT CẢ CÁC ĐỀ
+        const allTestData = {
+            t01: [
+                {
+                    part: "PART 1: Vocabulary & Grammar", icon: "fa-book", instructions: "Circle the letter next to the word or phrase which best completes each sentence.",
+                    questions: [
+                        { id: 1, text: "I laughed a lot because the movie was________", options: ["A. funny", "B. excited", "C. frightening", "D. boring"], answer: 0, hint: "Dấu hiệu: 'laughed a lot' (cười nhiều) -> phim phải hài hước (funny)." },
+                        { id: 2, text: "Please remember ________your hand during the test if you have a question.", options: ["A. raise", "B. to raise", "C. raising", "D. to raising"], answer: 1, hint: "Cấu trúc: remember + to V (nhớ phải làm gì trong tương lai/nhiệm vụ)." },
+                        { id: 3, text: "My brothers are working ________ for the exam.", options: ["A. hardly", "B. hard", "C. more hard", "D. hardness"], answer: 1, hint: "Cụm từ: work hard (làm việc chăm chỉ). 'Hardly' mang nghĩa 'hiếm khi'." },
+                        { id: 4, text: "My parents often goes to the countryside in their free time. The quiet and ________ atmosphere there calm them down.", options: ["A. polluted", "B. peaceful", "C. dirty", "D. noisy"], answer: 1, hint: "Từ đồng nghĩa/ngữ cảnh: 'quiet' (yên tĩnh) và 'calm' (bình tĩnh) đi với 'peaceful' (thanh bình)." },
+                        { id: 5, text: "When she was at university, my mum did a ________in Literature.", options: ["A. study", "B. subject", "C. degree", "D. certificate"], answer: 2, hint: "Cụm từ cố định: do/get a degree in + môn học (lấy bằng cử nhân môn gì)." },
+                        { id: 6, text: "They wanted to buy a drink, but the machine was out of ________", options: ["A. work", "B. position", "C. operation", "D. order"], answer: 3, hint: "Thành ngữ: out of order = bị hỏng (thường dùng cho máy móc)." },
+                        { id: 7, text: "Passengers to Vietnam may ________ for a visa on arrival in certain situations", options: ["A. apply", "B. ask", "C. request", "D. require"], answer: 0, hint: "Collocation: apply for a visa (nộp đơn xin visa)." },
+                        { id: 8, text: "The _____for a Vietnamese single visa is 25 USD, a multiple one is 50 USD", options: ["A. fee", "B. price", "C. cost", "D. money"], answer: 0, hint: "Từ vựng: 'fee' dùng cho lệ phí trả cho một dịch vụ chuyên nghiệp (phí visa, học phí)." },
+                        { id: 9, text: "Passengers are required to present their________ passports or travel documents...", options: ["A. valid", "B. invalid", "C. expire", "D. fraud"], answer: 0, hint: "Từ vựng: valid passport = hộ chiếu còn hiệu lực." },
+                        { id: 10, text: "Crews of a ship may stay in a hotel after they have ____from Port Border Guard.", options: ["A. permit", "B. certificate", "C. license", "D. degree"], answer: 0, hint: "Từ vựng: permit = giấy phép (đặc biệt trong quân sự/biên phòng cho phép làm gì)." }
+                    ]
+                },
+                {
+                    part: "PART 2: Signs and Notices", icon: "fa-exclamation-triangle", instructions: "Look at the text in each question. What does it say?",
+                    questions: [
+                        { id: 11, notice: "Paula\nDo you want to go to the concert with James tonight? Ring him before six to tell him. He’ll go with someone else if he doesn’t hear from you by then.\n- Tim", text: "What does Tim say?", options: ["A. Paula won’t be able to go to the concert unless she phones James by six.", "B. James wants Paula to find someone to go to the concert with him.", "C. James can no longer go to the concert with Paula at six.", "D. Jan can’t go to the concert with Paula."], answer: 0, hint: "Dấu hiệu: 'He'll go with someone else if he doesn't hear from you by then' = Nếu không gọi trước 6h, anh ấy đi cùng người khác." },
+                        { id: 12, notice: "To: All students\nFrom: College Secretary\nCan I remind you that all essays are due to this Friday? No late work will be accepted unless accompanied by a doctor’s letter", text: "What is the policy?", options: ["A. The secretary will post essays on Friday", "B. Students may hand in essays after Friday if they can prove illness.", "C. Unless your essay is due by Friday, you do not need to reply.", "D. If your essay is by Friday, you have to reply."], answer: 1, hint: "Dấu hiệu: 'unless accompanied by a doctor's letter' = trừ phi có giấy khám bệnh." },
+                        { id: 13, notice: "Chris\nI’ve written this letter to Sam but I can’t find his address. Have you got it? If not can you ring Mum and ask her? Then please post it.\n- Sarah", text: "Chris should:", options: ["A. phone Sam if he doesn’t know the address.", "B. Send the letter when she has found out the address.", "C. Ask Mum to write the address and then send the letter.", "D. write a letter to Sam."], answer: 1, hint: "Yêu cầu cuối cùng: 'Then please post it' sau khi có được địa chỉ." },
+                        { id: 14, notice: "This office can only take bookings at least twenty four hours in advance of departure", text: "What does the notice mean?", options: ["A. This office doesn’t take bookings for the same day as you travel.", "B. If you book tickets here you will receive them a day later.", "C. You can book tickets at this office twenty four hours a day.", "D. Unless you books tickets here, you will receive them a day later."], answer: 0, hint: "'at least 24 hours in advance' = đặt trước ít nhất 24h -> không nhận đặt vé đi trong ngày." },
+                        { id: 15, notice: "The gym is closed\n3-5 p.m. Friday\nfor staff training", text: "What does the notice mean?", options: ["A. The public can use the gym for part of Friday.", "B. The gym is closed for one day.", "C. No staff are available on Friday after 5 p.m.", "D. The gym is closed every day."], answer: 0, hint: "Phòng gym chỉ đóng từ 3-5h chiều thứ 6 -> Các khung giờ khác vẫn mở (một phần thời gian của thứ 6)." }
+                    ]
+                },
+                {
+                    part: "PART 3: Reading Comprehension", icon: "fa-glasses", instructions: "Read the text and questions below. Choose the correct answer.",
+                    context: "OVERSTAYING VIETNAM VISAS\n\nAccording to Vietnam Immigration policy, foreigners wishing to enter Vietnam legally are required to have a valid Vietnam visa. However, in some cases, because of unexpected reasons, visa holders do not exit Vietnam or extend the visa even their Vietnam visas expire. In this case, foreigners will be penalized for their actions.\n\nIf traveler’s visa has been expired no more than 3 days, besides visa extension fee, the holder must pay penalty fee for overstaying about 25 USD per day overstaying. For foreigners planning to exit Vietnam after overstaying for no more than 3 days, they can pay fine fee by themselves to Vietnam Immigration officer at ports of exit, and then leave the country.\n\nIf foreigner’s visa has been expired for a long time, they are to get an exit visa or visa extension immediately. Exit visa allows them a specified period to leave Vietnam legally. In order to get an exit visa or visa extension, visa holders need to submit their original passports, then pay the fine fee and fee for extension or exit one. Normally, it takes 7 to 10 days to get an exit or extended visa.\n\nTo avoid any problems while living or exiting Vietnam, foreigners are advised to pay attention to their Vietnam visa valid duration. If they want to stay in the country longer their visa temporary period, foreigners should contact Vietnam Immigration Department to arrange visa extension or visa renewal before expiration date.",
+                    questions: [
+                        { id: 16, text: "What happens if a foreigner fails to exit Vietnam or extend the visa when his or her Vietnam visa expired?", options: ["A. He/she will be penalized for their action.", "B. He/ she will enter Vietnam legally.", "C. He/ she will be sent to prison.", "D. He/ she will visit Vietnam."], answer: 0, hint: "Đoạn 1: 'foreigners will be penalized for their actions' (sẽ bị phạt)." },
+                        { id: 17, text: "Where can foreigners planning to exit Vietnam after overstaying for no more than 3 days pay fine fee?", options: ["A. at ports of exit", "B. at ports of entry", "C. at Vietnam Immigration Department", "D. at the airport"], answer: 0, hint: "Đoạn 2: 'pay fine fee... at ports of exit' (tại cửa khẩu xuất cảnh)." },
+                        { id: 18, text: "What does a foreigner do if his/her visa has been expired for a long time?", options: ["A. He/she must leave Vietnam immediately.", "B. He/she must submit their original passports.", "C. He/she must get an exit visa or visa extension immediately.", "D. He/ she must enter Vietnam."], answer: 2, hint: "Đoạn 3 dòng 1: 'they are to get an exit visa or visa extension immediately'." },
+                        { id: 19, text: "How can a foreigner have his/her visa extended or renewed?", options: ["A. She/he should contact Vietnam Immigration Department...", "B. She/he should pay the fine fee...", "C. She/he should submit his/her original passports...", "D. He/ she should complain."], answer: 0, hint: "Đoạn cuối: 'contact Vietnam Immigration Department to arrange visa extension'." },
+                        { id: 20, text: "Where can a foreigner have his/her visa extended or renewed?", options: ["A. at ports of exit", "B. at police station", "C. at Vietnam Immigration Department", "D. at the border checkpoint."], answer: 2, hint: "Đoạn cuối: Liên hệ Cục Quản lý xuất nhập cảnh (Vietnam Immigration Department)." }
+                    ]
+                },
+                {
+                    part: "PART 4: Cloze Test", icon: "fa-pen-nib", instructions: "Read the text below and choose the correct word for each space.",
+                    context: "THE FIRST WOMAN SCIENTIST\nHepatica was born in Alexandria... she was (21) ________only woman scientist... her father (22) ________sure his daughter had the best education... women then had few (23) ________to study... returned to Alexandria (24) ________she began teaching... became famous (25) ________her knowledge... We have no copies of her books, (26) ________we know... (27) ________several scientific tools... At the (28) ________many rulers were afraid of science, and (29) ________connected with it was in danger. Hepatica (30) ________attacked and killed.",
+                    questions: [
+                        { id: 21, text: "Question 21:", options: ["A. the", "B. one", "C. a", "D. an"], answer: 0, hint: "'only' làm tính từ duy nhất luôn đi với mạo từ xác định 'the'." },
+                        { id: 22, text: "Question 22:", options: ["A. said", "B. made", "C. could", "D. put"], answer: 1, hint: "Cụm từ: make sure (đảm bảo). Quá khứ là 'made sure'." },
+                        { id: 23, text: "Question 23:", options: ["A. opportunities", "B. customs", "C. classes", "D. teachers"], answer: 0, hint: "Dịch nghĩa: Phụ nữ thời đó có rất ít 'cơ hội' (opportunities) để học tập." },
+                        { id: 24, text: "Question 24:", options: ["A. where", "B. how", "C. there", "D. which"], answer: 0, hint: "Trạng từ quan hệ thay thế cho nơi chốn (Alexandria) -> where." },
+                        { id: 25, text: "Question 25:", options: ["A. by", "B. from", "C. for", "D. in"], answer: 2, hint: "Cấu trúc: famous for (nổi tiếng về điều gì)." },
+                        { id: 26, text: "Question 26:", options: ["A. or", "B. because", "C. but", "D. as"], answer: 2, hint: "Liên từ chỉ sự tương phản: Không có bản sao sách, NHƯNG (but) chúng ta biết..." },
+                        { id: 27, text: "Question 27:", options: ["A. learnt", "B. experimented", "C. did", "D. invented"], answer: 3, hint: "Dịch: tạo ra/phát minh công cụ khoa học -> invented." },
+                        { id: 28, text: "Question 28:", options: ["A. time", "B. period", "C. year", "D. day"], answer: 0, hint: "Thành ngữ: At the time (Vào thời điểm đó)." },
+                        { id: 29, text: "Question 29:", options: ["A. anyone", "B. nobody", "C. all", "D. something"], answer: 0, hint: "Bất kỳ ai (anyone) liên quan đến khoa học đều gặp nguy hiểm." },
+                        { id: 30, text: "Question 30:", options: ["A. was", "B. had", "C. has", "D. is"], answer: 0, hint: "Câu bị động quá khứ đơn: S + was/were + V_ed/P2 -> was attacked." }
+                    ]
+                }
+            ],
+            t02: [
+                {
+                    part: "PART 1: Vocabulary & Grammar", icon: "fa-book", instructions: "Circle the letter next to the word or phrase which best completes each sentence.",
+                    questions: [
+                        { id: 1, text: "Participants ________ bring any special equipment as everything will be provided.", options: ["A. mustn’t", "B. have to", "C. should", "D. needn’t"], answer: 3, hint: "Dấu hiệu: 'everything will be provided' (mọi thứ sẽ được cung cấp) -> không cần thiết phải mang theo (needn't)." },
+                        { id: 2, text: "They are laughing most of the time in a ________.", options: ["A. comedy", "B. science fiction", "C. documentary", "D. soap opera"], answer: 0, hint: "Dấu hiệu: 'laughing most of the time' (cười hầu hết thời gian) -> phim hài (comedy)." },
+                        { id: 3, text: "My boyfriend fell over in front of everyone at dinner. It was so ________.", options: ["A. embarrassing", "B. embarrassed", "C. frightening", "D. frightened"], answer: 0, hint: "Mô tả tính chất của một sự việc ('It') gây ra cảm giác xấu hổ -> dùng tính từ đuôi -ing (embarrassing)." },
+                        { id: 4, text: "How about ________to the theatre?", options: ["A. go", "B. to go", "C. going", "D. to going"], answer: 2, hint: "Cấu trúc đưa ra lời đề nghị: 'How about + V-ing?'." },
+                        { id: 5, text: "If the company hadn’t advertised, ____people would have known about the product.", options: ["A. a lot of", "B. few", "C. many", "D. much"], answer: 1, hint: "Câu điều kiện loại 3. Nghĩa phủ định: Nếu không quảng cáo -> 'Rất ít' người biết (few + danh từ đếm được số nhiều)." },
+                        { id: 6, text: "“I finally got all the books on the shelves.” “Look out! The ones on the top ______”.", options: ["A. are going to fall", "B. are falling", "C. will fall", "D. is going to fall"], answer: 0, hint: "'Look out!' (Coi chừng!) -> Dự đoán một sự việc sắp xảy ra có dấu hiệu rõ ràng ở hiện tại -> Tương lai gần (are going to fall)." },
+                        { id: 7, text: "_____ of a ship may stay in a hotel after they have permit from Port Border Guards.", options: ["A. Crews", "B. Pilots", "C. License", "D. Degree"], answer: 0, hint: "Từ vựng: 'Crews of a ship' (Thủy thủ đoàn của một con tàu)." },
+                        { id: 8, text: "Drivers of vehicles entering or exiting through Vietnam border gates must have a valid passport or their valid papers and visas, driving ________ and other documents required by laws.", options: ["A. license", "B. Certificate", "C. Degree", "D. Diploma"], answer: 0, hint: "Từ vựng cố định: 'driving license' (bằng lái xe)." },
+                        { id: 9, text: "Certificate of Registration is one of the required _________ for vehicles to enter and exit through border gates.", options: ["A. documents", "B. passports", "C. visas", "D. paper"], answer: 0, hint: "Giấy chứng nhận đăng ký xe là một trong những loại 'giấy tờ/tài liệu' bắt buộc -> documents." },
+                        { id: 10, text: "The use of fraud passport or travel documents is _______ according to Vietnamese laws.", options: ["A. illegal", "B. allowed", "C. legal", "D. acceptable"], answer: 0, hint: "Sử dụng hộ chiếu giả mạo (fraud passport) là hành vi 'bất hợp pháp' -> illegal." }
+                    ]
+                },
+                {
+                    part: "PART 2: Signs and Notices", icon: "fa-exclamation-triangle", instructions: "Look at the text in each question. What does it say?",
+                    questions: [
+                        { id: 11, notice: "Debbie,\nBrian’s decided to attend the advanced guitar class and not the intermediate, and hopes you will too. Please let him know. It starts immediately after the immediate class.\n- Vickie", text: "What is the message about?", options: ["A. Debbie should tell Brian the exact time his guitar class starts.", "B. Brian wants Debbie to go to the same guitar class as him.", "C. Brian is asking to join the advanced guitar class.", "D. Debbie should go to advanced class."], answer: 1, hint: "Dấu hiệu: 'hopes you will too' -> Brian hy vọng Debbie cũng sẽ tham gia lớp nâng cao cùng mình." },
+                        { id: 12, notice: "Children’s Science Exhibition\nMachines have buttons which should be pressed to make them start.", text: "What does this mean?", options: ["A. The machines are designed so that children can operate them.", "B. Children should be careful not to touch the machines.", "C. The machines are models which do not work.", "D. Children should not be careful with the machines."], answer: 0, hint: "Máy móc có nút bấm để khởi động -> Thiết kế để trẻ em có thể tự bấm/vận hành (operate them)." },
+                        { id: 13, notice: "SPORTS CENTER\nPLEASE REPORT LOST PROPERTY IMMEDIATELY TO ANY MEMBER OF STAFF", text: "What should you do?", options: ["A. Ask a member of staff to show you the lost property list.", "B. Tell the staff what you have lost without delay.", "C. The staff will fill in a lost property report immediately.", "D. Tell the staff to collect the lost items."], answer: 1, hint: "'REPORT... IMMEDIATELY' đồng nghĩa với 'Tell the staff... without delay' (Báo cáo không chậm trễ)." },
+                        { id: 14, notice: "Coach trip:\nNo places available. If you’ve paid a deposit, final payment due tomorrow", text: "Tomorrow is the last day for...", options: ["A. paying what you owe for the coach trip.", "B. saying you want to go on the coach trip.", "C. paying a deposit for the coach trip.", "D. answering the phone."], answer: 0, hint: "'final payment due tomorrow' -> Ngày mai là hạn chót để thanh toán số tiền còn nợ (paying what you owe)." },
+                        { id: 15, notice: "Please use upstairs waiting room if you have an appointment with the nurse", text: "What does the notice say?", options: ["A. You can go upstairs to make appointments with the nurse.", "B. The nurse can only see patients with appointments.", "C. Wait upstairs to see the nurse.", "D. The nurse can help everybody here."], answer: 2, hint: "'use upstairs waiting room' -> Đợi ở phòng chờ tầng trên để được gặp y tá." }
+                    ]
+                },
+                {
+                    part: "PART 3: Reading Comprehension", icon: "fa-glasses", instructions: "Read the text and questions below. Choose the correct answer.",
+                    context: "TRAVEL FROM VIETNAM TO CAMBODIA\n\nVietnam and Cambodia are neighbors in Southeast Asia on the Indochina Peninsula. The two countries share a long border with a variety of crossings. Travel between the two countries is remarkably easy, with a variety of ways to travel, including flights, buses, cars and boats.\n\nTravel Documents\nVisas are required to travel from Vietnam into Cambodia; however, they are available on arrival at airports and border crossings. In order to qualify for a visa on arrival, you must have two passport-sized photographs with you, although if you don't, you may simply be fined a small amount and granted a visa anyway.\n\nFlights\nCambodia has two major airports, one in the capital, Phnom Penh (airport code PNH), and one in Siem Reap (REP), which is near the Angkor Wat temple complex. Most flights from Vietnam to Cambodia originate in Ho Chi Minh City and take between one to two hours. Arriving by air in Cambodia is relatively simple and the customs process is mostly hassle-free.\n\nLand Crossings\nNumerous land crossings are available between Vietnam and Cambodia. Many people travel from Ho Chi Minh City to Phnom Penh by bus, a trip that takes approximately six hours, including a border stop. This crossing is called Moc Bai on the Vietnamese side and Bavet on the Cambodian side. Additionally, at least seven other land border crossings are open between the two nations; private vehicles are allowed to cross at all points. Visas on arrival are available at most land border crossings.\n\nWater Crossings\nThe Mekong River runs north to south through Cambodia before ending in Vietnam. River boat border crossings are available with brief stops on land to check passports and visas. Visas on arrival are available at the Cambodian border crossing. Fast boat service is available from Chau Doc in Vietnam to Phnom Penh. More leisurely cruises are also available, and service is available all the way to Siem Reap in the north central part of Cambodia.",
+                    questions: [
+                        { id: 16, text: "By which ways can visitors travel from Vietnam to Cambodia?", options: ["A. flights, buses and cars", "B. flights, cars and boats", "C. flights, buses, cars and boats", "D. motorbikes, buses, cars"], answer: 2, hint: "Đoạn 1, câu cuối: 'including flights, buses, cars and boats'." },
+                        { id: 17, text: "What do visitors do to have a Cambodian visa upon arrival?", options: ["A. Both B and C.", "B. They must have two passport-sized photographs.", "C. They must pay the fine a small amount.", "D. They must do nothing."], answer: 0, hint: "Đoạn 2: Cần 2 ảnh thẻ cỡ hộ chiếu (B), nếu không có sẽ bị phạt một khoản nhỏ (C). (Chọn A do chứa ý cả B và C)." },
+                        { id: 18, text: "How long does it take a visitor to travel from Ho Chi Minh to Cambodia by bus?", options: ["A. takes 3 hours", "B. takes 6 hours", "C. takes between one to two hours", "D. takes 2 hours."], answer: 1, hint: "Đoạn 4 (Land Crossings): 'a trip that takes approximately six hours'." },
+                        { id: 19, text: "What is the name of the border stop mentioned in land crossing paragraph?", options: ["A. Moc Bai on the Vietnamese side and Bavet on the Cambodian side.", "B. Chau Doc on the Vietnamese side and Bavet on the Cambodian side.", "C. Moc Bai on the Vietnamese side and Siem Reap on the Cambodian side.", "D. Moc Bai on the Cambodian side and Chau Doc on the Vietnamese side."], answer: 0, hint: "Đoạn 4: 'This crossing is called Moc Bai on the Vietnamese side and Bavet on the Cambodian side'." },
+                        { id: 20, text: "Where does fast boat service operate?", options: ["A. Fast boat service is available from Chau Doc in Vietnam to Phnom Penh.", "B. Fast boat service is available from Moc Bai in Vietnam to Phnom Penh.", "C. Fast boat service is available from Mekong River in Vietnam to Phnom Penh.", "D. Fast boat service is available from Moc Chau in Vietnam."], answer: 0, hint: "Đoạn 5 (Water Crossings): 'Fast boat service is available from Chau Doc in Vietnam to Phnom Penh'." }
+                    ]
+                },
+                {
+                    part: "PART 4: Cloze Test", icon: "fa-pen-nib", instructions: "Read the text below and choose the correct word for each space.",
+                    context: "CAMPING\nAlthough some groups of people have always lived outdoors in tents, camping as we know it today only began to be (21) _______about 50 years ago. The increase in the use of cars and improvements in camping (22) _______have allowed more people to travel longer (23) _______into the countryside and to stay there in greater comfort.\n\nMany campers like to be (24) _______themselves in quiet areas, so they (25) _______their tent and food and walk or cycle into the forests or the mountains. Others, preferring to be near people, drive to a public or privately-owned campsite (26) _______has up-to-date facilities, (27) _______hot showers and swimming pools.\n\nWhether campers are (28) _______in the mountains or on a busy site, they should remember to (29) _______the area clean and tidy. In the forests, they must put out any fires and keep food hidden to avoid attracting (30) _______animals.",
+                    questions: [
+                        { id: 21, text: "Question 21:", options: ["A. popular", "B. famous", "C. favourite", "D. current"], answer: 0, hint: "Cắm trại bắt đầu trở nên 'phổ biến' (popular) khoảng 50 năm trước." },
+                        { id: 22, text: "Question 22:", options: ["A. baggage", "B. equipment", "C. property", "D. tool"], answer: 1, hint: "Cụm từ: 'camping equipment' (thiết bị cắm trại)." },
+                        { id: 23, text: "Question 23:", options: ["A. voyages", "B. ways", "C. directions", "D. distances"], answer: 3, hint: "Cụm từ: 'travel longer distances' (di chuyển những khoảng cách xa hơn)." },
+                        { id: 24, text: "Question 24:", options: ["A. by", "B. on", "C. at", "D. of"], answer: 0, hint: "Thành ngữ: 'by themselves' (một mình / tự lo liệu)." },
+                        { id: 25, text: "Question 25:", options: ["A. make", "B. take", "C. pick", "D. do"], answer: 1, hint: "'take their tent and food' (mang theo lều và thức ăn)." },
+                        { id: 26, text: "Question 26:", options: ["A. which", "B. who", "C. where", "D. when"], answer: 0, hint: "Đại từ quan hệ thay thế cho 'campsite' (vật), làm chủ ngữ cho động từ 'has' -> dùng 'which'." },
+                        { id: 27, text: "Question 27:", options: ["A. just", "B. such", "C. as", "D. like"], answer: 3, hint: "Dùng để liệt kê ví dụ: 'like hot showers' (như là nước nóng...)." },
+                        { id: 28, text: "Question 28:", options: ["A. lonely", "B. alone", "C. single", "D. separate"], answer: 1, hint: "'alone in the mountains' (một mình ở trên núi). Không dùng 'lonely' vì nó mang nghĩa cô đơn (cảm xúc)." },
+                        { id: 29, text: "Question 29:", options: ["A. stay", "B. remain", "C. leave", "D. let"], answer: 2, hint: "Cấu trúc: 'leave + Object + adj' (giữ/để lại khu vực sạch sẽ gọn gàng)." },
+                        { id: 30, text: "Question 30:", options: ["A. wild", "B. natural", "C. loose", "D. free"], answer: 0, hint: "Từ vựng: 'wild animals' (động vật hoang dã)." }
+                    ]
+                }
+            ],
+            t03: [
+                {
+                    part: "PART 1: Vocabulary & Grammar", icon: "fa-book", instructions: "Circle the letter next to the word or phrase which best completes each sentence.",
+                    questions: [
+                        { id: 1, text: "My father is not good at all ________ any kind of sports.", options: ["A. with", "B. on", "C. at", "D. for"], answer: 2, hint: "Cấu trúc: 'good at' (giỏi về việc gì/môn gì)." },
+                        { id: 2, text: "\"My car has just broken down!\" \"Don't worry. I ________it\"", options: ["A. am going to fix", "B. ’ll fix", "C. am fixing", "D. fixed"], answer: 1, hint: "Dùng thì Tương lai đơn (will / 'll fix) để diễn tả một quyết định đưa ra ngay tại thời điểm nói." },
+                        { id: 3, text: "What's the weather ________for tomorrow?", options: ["A. storm", "B. forecast", "C. like", "D. lightning"], answer: 1, hint: "Cụm danh từ: 'weather forecast' (dự báo thời tiết)." },
+                        { id: 4, text: "He has been coughing a lot lately. He ________ smoke so much.", options: ["A. needn’t", "B. can’t", "C. shouldn’t", "D. don’t have to"], answer: 2, hint: "Dùng 'shouldn't' để đưa ra lời khuyên (không nên hút thuốc nhiều)." },
+                        { id: 5, text: "I love the peace and ________of the countryside.", options: ["A. quiet", "B. silent", "C. quite", "D. safe"], answer: 0, hint: "Thành ngữ: 'peace and quiet' (sự thanh bình và yên tĩnh)." },
+                        { id: 6, text: "You don’t have to pay for delivery. It is free of ________", options: ["A. fee", "B. cost", "C. charge", "D. payment"], answer: 2, hint: "Thành ngữ: 'free of charge' (miễn phí)." },
+                        { id: 7, text: "Information about ship, crews and passengers, goods should be________ at least 8 hours before the ship arrives the port or 2 hours before its leaving the port.", options: ["A. declared", "B. filled in", "C. put", "D. booked"], answer: 0, hint: "Từ vựng chuyên ngành biên phòng: 'declare' (khai báo thông tin)." },
+                        { id: 8, text: "Port Border Guards ________ the declaration via Border Portal, check and handle the information.", options: ["A. receive", "B. refuse", "C. got", "D. have"], answer: 0, hint: "Từ vựng: 'receive' (tiếp nhận tờ khai)." },
+                        { id: 9, text: "Port Border Guards make ________ and send feedback of confirmation or refusal via Border Portal after one hour of receiving the declaration.", options: ["A. procedures", "B. requirements", "C. plans", "D. appointment"], answer: 0, hint: "Từ vựng: 'make procedures' (làm thủ tục)." },
+                        { id: 10, text: "The use of fake passport and visa is illegal according to Vietnamese ________.", options: ["A. regulations", "B. permission", "C. permit", "D. procedure"], answer: 0, hint: "Từ vựng: 'regulations' (quy định / luật lệ của Việt Nam)." }
+                    ]
+                },
+                {
+                    part: "PART 2: Signs and Notices", icon: "fa-exclamation-triangle", instructions: "Look at the text in each question. What does it say?",
+                    questions: [
+                        { id: 11, notice: "FOR SALE\nGremlins Computer Games (age 8 and above)\nUnwanted gift –box unopened\nRing 282137", text: "What does it say?", options: ["A. The owner of the computer games that is for sale has never used it.", "B. The computer games is for sale because the owner is too old for it.", "C. The person selling the computer games no longer wants to play with it.", "D. The seller can’t use it."], answer: 0, hint: "Thông báo ghi: 'Unwanted gift –box unopened' (Món quà không cần đến - Hộp chưa mở) -> Chủ nhân chưa bao giờ sử dụng nó." },
+                        { id: 12, notice: "STUDENTS WITHOUT MEAL TICKETS FOR TODAY MUST PAY FOR ALL FOOD, SNACKS AND DRINKS", text: "What does it say?", options: ["A. You have to pay for meal if you don’t have a ticket.", "B. You cannot use ticket to pay for your meal today.", "C. If you need a meal ticket you can pay for it here.", "D. Unless you need a meal ticket, you can pay for it here."], answer: 0, hint: "Biển báo quy định: Nếu học sinh KHÔNG CÓ vé ăn (Without tickets) thì PHẢI TRẢ TIỀN cho tất cả đồ ăn." },
+                        { id: 13, notice: "Sorry\nNo dogs Unless Carried", text: "What does it say?", options: ["A. Dogs must walk with their owners.", "B. Dogs must be kept on a chain.", "C. Dogs must be held.", "D. Dogs must be free."], answer: 2, hint: "'Unless Carried' = Trừ khi được bế/ôm -> Chó bắt buộc phải được bế (must be held)." },
+                        { id: 14, notice: "Important!\nDo NOT connect the printer cable to your computer until you have installed the software provided.", text: "What does it say?", options: ["A. You must connect the cable after you install the software.", "B. You must connect the cable before you install the software.", "C. You must not connect the cable to the printer.", "D. You must connect the cable right now."], answer: 0, hint: "'Do NOT connect... until you have installed' = KHÔNG ĐƯỢC kết nối cho đến khi cài phần mềm xong -> Phải kết nối SAU KHI (after) cài phần mềm." },
+                        { id: 15, notice: "SUPERSAVER TICKETS CANNOT BE USED ON FRIDAYS", text: "What does it say?", options: ["A. You need a special ticket to travel on a Friday.", "B. You can save money by travelling on a Friday.", "C. Supersaver tickets can be used every day except Fridays.", "D. You should save money for travelling."], answer: 2, hint: "'Cannot be used on Fridays' = Không thể dùng vào ngày thứ Sáu -> Tức là có thể dùng mọi ngày NGOẠI TRỪ (except) thứ Sáu." }
+                    ]
+                },
+                {
+                    part: "PART 3: Reading Comprehension", icon: "fa-glasses", instructions: "Read the text and questions below.",
+                    context: "CUSTOMS PROCEDURES TO ENTER AND EXIT VIETNAM\n\nUpon entering or exiting Vietnam, all visitors to Vietnam must complete the entry, exit and customs procedures. They have to fill out the new entry & exit form (CHY2000), submit to the Immigration Officers, show all the required documents (passport, plus visa approval letter & photos in case you use Vietnam visa on arrival) and wait a couple of minutes until the procedures are completed to enter or exit the country.\n\nTo quickly fulfill the entry/ exit form without any mistakes, please be noted with the following information: the goods and luggage brought to Vietnam must be sufficient for personal use only; luggage of travelers as declared at Customs on arrival must be shown again at Customs when leaving Vietnam (except for those having been consumed or given as gifts).\n\nRemember to specify in the entry/exit form those following stuffs (if any): Video cameras, and electronic devices not for personal use; Gold, silver, and jewelry not for personal belongings; Foreign currency in cash (paper, coins and traveler’s cheques) over US$ 7,000; over 5,000,000 Vietnamese Dong in cash; Gold (over 300 g): If more than 3,000 g, you are required to deposit and re-export the surplus.\n\nProhibited goods for import or export from Vietnam (if without permit): weapons, ammunition, explosives, inflammables, firecrackers of all sorts, opium and other narcotics, toxic chemicals, antiques, rare fauna and flora, documents related to national security etc.",
+                    questions: [
+                        { id: 16, text: "What must all passengers do upon entering and exiting Vietnam?", options: ["A. They must complete the entry, exit and customs procedures.", "B. They must complete the exit and customs procedures.", "C. They must complete the entry and customs procedures.", "D. They must complete the passport and visa."], answer: 0, hint: "Đoạn 1, dòng 1: 'all visitors to Vietnam must complete the entry, exit and customs procedures.'" },
+                        { id: 17, text: "How long do passengers need to wait for their procedures to be completed?", options: ["A. an hour and ten minutes", "B. a couple of minutes", "C. half an hour and ten minutes", "D. a couple of hours"], answer: 1, hint: "Đoạn 1, dòng cuối: 'and wait a couple of minutes until the procedures are completed...'" },
+                        { id: 18, text: "What must be shown again at Customs when leaving Vietnam (except for those having been consumed or given as gifts)?", options: ["A. luggage of travelers as declared at Customs on arrival", "B. passport of travelers as declared at Customs on arrival", "C. visa of travelers as declared at Customs on arrival", "D. papers of travelers as declared at Customs on arrival"], answer: 0, hint: "Đoạn 2: 'luggage of travelers as declared at Customs on arrival must be shown again at Customs when leaving Vietnam'." },
+                        { id: 19, text: "What are you required to do if you bring more than 3,000g of gold?", options: ["A. I am required to deposit and re-check the surplus.", "B. I am required to deposit and re-import the surplus.", "C. I am required to deposit and re-export the surplus.", "D. I am required to deposit and rewrite the surplus."], answer: 2, hint: "Đoạn 3, dòng cuối: 'Gold... If more than 3,000 g, you are required to deposit and re-export the surplus.'" },
+                        { id: 20, text: "What are prohibited goods for import or export from Vietnam (if without permit)?", options: ["A. Weapons, animation, explosives, inflammables, firecrackers of all sorts etc.", "B. Weapons, ammunition, explosion, inflammables, firecrackers of all sorts etc.", "C. Weapons, ammunition, explosives, inflammables, firecrackers of all sorts etc.", "D. Weapons, animals, explosives, inflammables, firecrackers of all sorts etc."], answer: 2, hint: "Đoạn cuối: Liệt kê 'weapons, ammunition, explosives, inflammables, firecrackers of all sorts...'" }
+                    ]
+                },
+                {
+                    part: "PART 4: Cloze Test", icon: "fa-pen-nib", instructions: "Read the text below and choose the correct word for each space.",
+                    context: "MONEY\nWhat is money? The pound, the dollar or the euro are actually just like a gram or a kilometer. The difference is that you can exchange money for something (21) ________. A ten pound note may buy a book, a huge bag of sweets, or a (22) ________of cinema tickets. But the note itself is only a printed (23) ________of paper which costs almost nothing to make. Thousands of years (24) ________, people didn’t have money as we know (25) ________. There were no banks (26) ________ even shops. In those days, Mr. Green the farmer exchanged the corn he (27) _______grown for Mr. Hive’s honey. This was an exchange arranged between two (28) ________ each of whom had something that the other wanted. But in time, most societies invented their own ‘currencies’ (29) ________that people could exchange more. The different currencies began to join together, which is why (30) ________everyone uses the same currency in their country.",
+                    questions: [
+                        { id: 21, text: "Question 21:", options: ["A. else", "B. other", "C. another", "D. same"], answer: 0, hint: "'something else' (thứ gì đó khác). 'Other' và 'Another' thường đứng trước danh từ." },
+                        { id: 22, text: "Question 22:", options: ["A. few", "B. double", "C. couple", "D. several"], answer: 2, hint: "Cụm từ: 'a couple of' (một vài / một cặp)." },
+                        { id: 23, text: "Question 23:", options: ["A. part", "B. piece", "C. side", "D. slice"], answer: 1, hint: "Cụm danh từ: 'a printed piece of paper' (một mảnh giấy được in)." },
+                        { id: 24, text: "Question 24:", options: ["A. since", "B. past", "C. before", "D. ago"], answer: 3, hint: "Thì Quá khứ đơn: 'Thousands of years ago' (Hàng ngàn năm trước)." },
+                        { id: 25, text: "Question 25:", options: ["A. it", "B. them", "C. some", "D. that"], answer: 0, hint: "Đại từ 'it' thay thế cho danh từ 'money' (không đếm được) ở trước." },
+                        { id: 26, text: "Question 26:", options: ["A. and", "B. neither", "C. or", "D. but"], answer: 2, hint: "Trong câu phủ định 'There were no banks', dùng 'or' (hoặc) để nối: không có ngân hàng hoặc thậm chí các cửa hàng." },
+                        { id: 27, text: "Question 27:", options: ["A. has", "B. was", "C. did", "D. had"], answer: 3, hint: "Hành động trồng ngô (had grown) xảy ra TRƯỚC hành động trao đổi (exchanged) trong quá khứ -> Dùng thì Quá khứ hoàn thành." },
+                        { id: 28, text: "Question 28:", options: ["A. people", "B. jobs", "C. things", "D. goods"], answer: 0, hint: "Sự trao đổi này được sắp xếp giữa 2 'người' (between two people)." },
+                        { id: 29, text: "Question 29:", options: ["A. by", "B. so", "C. because", "D. for"], answer: 1, hint: "Cụm từ chỉ mục đích: 'so that' (để mà)." },
+                        { id: 30, text: "Question 30:", options: ["A. recently", "B. tomorrow", "C. today", "D. soon"], answer: 2, hint: "Đang so sánh 'trong quá khứ' với 'ngày nay' -> dùng 'today'." }
+                    ]
+                }
+            ]
+        };
+
+        let currentQuizData = [];
+        let currentMode = '';
+        let currentPartIndex = 0;
+        let timerInterval;
+        let timeLeft = 40 * 60;
+        let userAnswers = {};
+
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const current = body.getAttribute('data-theme');
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            document.getElementById('theme-icon').className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // Sidebar Menu
+        function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); }
+
+        // Hiệu ứng Giảm Stress (Gõ búa & Pháo hoa)
+        function triggerStressRelief() {
+            document.body.classList.add('body-shake');
+            setTimeout(() => document.body.classList.remove('body-shake'), 500);
+
+            const emojis = ['💥', '🔨', '🎇', '✨', '😂', '🚀', '💣', '🔥'];
+            for(let i = 0; i < 40; i++) {
+                let particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                particle.style.left = (Math.random() * 100) + 'vw';
+                particle.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 3500);
+            }
+        }
+
+        // Chọn đề thi từ Menu Chính
+        function selectTest(testId, title) {
+            // Copy sâu dữ liệu để không làm hỏng data gốc khi xáo trộn
+            currentQuizData = JSON.parse(JSON.stringify(allTestData[testId]));
+            document.getElementById('selected-test-title').innerText = title;
+            document.getElementById('nav-test-name').innerText = title;
+            
+            document.getElementById('main-menu-screen').classList.add('hide');
+            document.getElementById('start-screen').classList.remove('hide');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Trở về Menu Chọn Đề
+        function backToMenu() {
+            document.getElementById('start-screen').classList.add('hide');
+            document.getElementById('main-menu-screen').classList.remove('hide');
+        }
+
+        // Thoát nhiệm vụ và Về màn hình chính (Menu chọn đề)
+        function exitTask() {
+            clearInterval(timerInterval);
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('quiz-screen').classList.add('hide');
+            document.getElementById('result-screen').classList.add('hide');
+            document.getElementById('start-screen').classList.add('hide');
+            document.getElementById('main-menu-screen').classList.remove('hide');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Hàm xáo trộn đáp án trước khi render
+        function shuffleOptions() {
+            currentQuizData.forEach(part => {
+                part.questions.forEach(q => {
+                    let mappedOptions = q.options.map((opt, idx) => ({
+                        text: opt.replace(/^[A-D]\.\s*/, ''),
+                        isCorrect: idx === q.answer
+                    }));
+
+                    for (let i = mappedOptions.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [mappedOptions[i], mappedOptions[j]] = [mappedOptions[j], mappedOptions[i]];
+                    }
+
+                    const prefixes = ["A. ", "B. ", "C. ", "D. "];
+                    q.options = mappedOptions.map((opt, idx) => prefixes[idx] + opt.text);
+                    q.answer = mappedOptions.findIndex(opt => opt.isCorrect);
+                });
+            });
+        }
+
+        function startQuiz(mode) {
+            currentMode = mode;
+            currentPartIndex = 0;
+            userAnswers = {};
+            timeLeft = 40 * 60;
+            
+            shuffleOptions();
+            
+            document.getElementById('start-screen').classList.add('hide');
+            document.getElementById('quiz-screen').classList.remove('hide');
+            
+            if (mode === 'exam') {
+                document.getElementById('timer').classList.remove('hide');
+                startTimer();
+            } else {
+                document.getElementById('timer').classList.add('hide');
+            }
+            
+            renderQuiz();
+            buildMenu();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function changePart(index) {
+            if (index >= 0 && index < currentQuizData.length) {
+                currentPartIndex = index;
+                renderQuiz();
+                buildMenu();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function buildMenu() {
+            const menuHtml = currentQuizData.map((part, i) => {
+                let isActive = (i === currentPartIndex) ? 'active-part' : '';
+                return `<button class="menu-item ${isActive}" onclick="changePart(${i}); toggleMenu();">
+                    <i class="fas ${part.icon}"></i> Part ${i+1}
+                </button>`;
+            }).join('');
+            document.getElementById('menu-links').innerHTML = menuHtml;
+        }
+
+        function toggleHint(qId) {
+            const hintBox = document.getElementById(`hint-${qId}`);
+            hintBox.style.display = hintBox.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function renderQuiz(renderAll = false) {
+            const container = document.getElementById('quiz-content');
+            container.innerHTML = '';
+
+            const partsToRender = renderAll ? currentQuizData : [currentQuizData[currentPartIndex]];
+
+            partsToRender.forEach((section) => {
+                let sIndex = currentQuizData.indexOf(section);
+
+                let html = `<div class="card part-container" id="part-${sIndex}">
+                    <div class="part-title">
+                        <span><i class="fas ${section.icon}"></i> ${section.part}</span>
+                        ${!renderAll ? `<span style="font-size: 1rem; color: var(--text-muted); background: var(--bg-body); padding: 5px 15px; border-radius: 20px;">Phần ${sIndex + 1}/${currentQuizData.length}</span>` : ''}
+                    </div>
+                    <p style="font-style: italic; color: var(--text-muted); margin-bottom: 20px;">${section.instructions}</p>`;
+
+                // Split Layout cho Bài đọc
+                if (section.context) {
+                    html += `<div class="reading-layout">
+                                <div class="reading-passage-container">
+                                    <div class="reading-passage">${section.context.replace(/\n/g, '<br>')}</div>
+                                </div>
+                                <div class="questions-container">`;
+                }
+
+                section.questions.forEach((q) => {
+                    html += `<div class="question-block" id="q-block-${q.id}">`;
+                    
+                    if (q.notice) {
+                        html += `<div style="border: 2px dashed var(--accent); padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 20px; background: rgba(212, 175, 55, 0.05);"><strong>${q.notice.replace(/\n/g, '<br>')}</strong></div>`;
+                    }
+
+                    html += `<div class="question-header">
+                                <div class="question-text">Câu ${q.id}: ${q.text}</div>`;
+                    if (currentMode === 'practice' && !renderAll) {
+                        html += `<button class="btn-hint" onclick="toggleHint(${q.id})"><i class="fas fa-lightbulb"></i> Mẹo</button>`;
+                    }
+                    html += `</div>`;
+
+                    let isAnswered = userAnswers[q.id] !== undefined;
+                    let showHint = ((currentMode === 'practice' && isAnswered) || renderAll) ? 'block' : 'none';
+                    
+                    html += `<div id="hint-${q.id}" class="hint-box" style="display: ${showHint};">👉 <b>Gợi ý:</b> ${q.hint}</div>`;
+
+                    html += `<div class="options" id="options-${q.id}">`;
+                    q.options.forEach((opt, optIndex) => {
+                        let optionClass = '';
+                        
+                        if (!renderAll) {
+                            if (currentMode === 'exam' && userAnswers[q.id] === optIndex) {
+                                optionClass = 'selected';
+                            } else if (currentMode === 'practice' && isAnswered) {
+                                optionClass += ' disabled';
+                                if (optIndex === q.answer) optionClass += ' correct';
+                                else if (userAnswers[q.id] === optIndex && optIndex !== q.answer) optionClass += ' wrong';
+                            }
+                        }
+
+                        html += `<div class="option ${optionClass}" id="opt-${q.id}-${optIndex}" onclick="selectOption(${q.id}, ${optIndex}, ${q.answer})">
+                                    <span>${opt}</span>
+                                    <i class="fas fa-check-circle opt-icon text-success"></i>
+                                    <i class="fas fa-times-circle opt-icon text-danger"></i>
+                                 </div>`;
+                    });
+
+                    html += `</div></div>`;
+                });
+
+                if (section.context) html += `</div></div>`; 
+
+                // Điều hướng
+                if (!renderAll) {
+                    html += `<div style="display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border);">`;
+                    
+                    if (sIndex > 0) {
+                        html += `<button class="btn btn-accent" onclick="changePart(${sIndex - 1})"><i class="fas fa-arrow-left"></i> Phần Trước</button>`;
+                    } else { html += `<div></div>`; }
+                    
+                    if (sIndex < currentQuizData.length - 1) {
+                        html += `<button class="btn btn-primary" onclick="changePart(${sIndex + 1})">Phần Tiếp <i class="fas fa-arrow-right"></i></button>`;
+                    } else {
+                        let btnText = currentMode === 'exam' ? "Nộp Bài Báo Cáo" : "Hoàn Thành Luyện Tập";
+                        html += `<button class="btn btn-danger" onclick="submitExam()"><i class="fas fa-paper-plane"></i> ${btnText}</button>`;
+                    }
+                    html += `</div>`;
+                }
+
+                html += `</div>`;
+                container.innerHTML += html;
+            });
+        }
+
+        function selectOption(qId, selectedIdx, correctIdx) {
+            if (currentMode === 'practice') {
+                if(userAnswers[qId] !== undefined) return; 
+                userAnswers[qId] = selectedIdx;
+                
+                const optionsContainer = document.getElementById(`options-${qId}`);
+                const options = optionsContainer.getElementsByClassName('option');
+                for(let opt of options) opt.classList.add('disabled');
+                
+                const selectedElement = document.getElementById(`opt-${qId}-${selectedIdx}`);
+                if (selectedIdx === correctIdx) {
+                    selectedElement.classList.add('correct');
+                } else {
+                    selectedElement.classList.add('wrong');
+                    document.getElementById(`opt-${qId}-${correctIdx}`).classList.add('correct');
+                    document.getElementById(`hint-${qId}`).style.display = 'block';
+                }
+            } 
+            else if (currentMode === 'exam') {
+                const optionsContainer = document.getElementById(`options-${qId}`);
+                const options = optionsContainer.getElementsByClassName('option');
+                for(let opt of options) opt.classList.remove('selected');
+                
+                userAnswers[qId] = selectedIdx;
+                document.getElementById(`opt-${qId}-${selectedIdx}`).classList.add('selected');
+            }
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                let s = (timeLeft % 60).toString().padStart(2, '0');
+                document.getElementById('timer').innerText = `${m}:${s}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Đã hết thời gian làm bài!");
+                    submitExam();
+                }
+            }, 1000);
+        }
+
+        function submitExam() {
+            clearInterval(timerInterval);
+            let score = 0;
+            const reviewGrid = document.getElementById('review-grid');
+            reviewGrid.innerHTML = '';
+            
+            currentQuizData.forEach(section => {
+                section.questions.forEach(q => {
+                    let isCorrect = userAnswers[q.id] === q.answer;
+                    let isAnswered = userAnswers[q.id] !== undefined;
+                    if (isCorrect) score++;
+
+                    let statusClass = isCorrect ? 'correct' : (isAnswered ? 'wrong' : 'unanswered');
+                    reviewGrid.innerHTML += `<a href="#q-block-${q.id}" class="review-item ${statusClass}" onclick="viewAnswers()">${q.id}</a>`;
+                });
+            });
+
+            document.getElementById('quiz-screen').classList.add('hide');
+            document.getElementById('result-screen').classList.remove('hide');
+            document.getElementById('final-score').innerText = score;
+            
+            let message = score >= 25 ? "Xuất sắc! Đồng chí đã hoàn thành xuất sắc nhiệm vụ." : 
+                          score >= 15 ? "Đạt yêu cầu! Cần tiếp tục trau dồi nghiệp vụ." : 
+                          "Chưa đạt! Đồng chí cần ôn tập lại kỹ lưỡng hơn.";
+            document.getElementById('result-message').innerText = message;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function viewAnswers() {
+            document.getElementById('result-screen').classList.add('hide');
+            document.getElementById('quiz-screen').classList.remove('hide');
+            document.getElementById('timer').classList.add('hide');
+            
+            renderQuiz(true);
+            
+            currentQuizData.forEach(section => {
+                section.questions.forEach(q => {
+                    const optionsContainer = document.getElementById(`options-${q.id}`);
+                    const options = optionsContainer.getElementsByClassName('option');
+                    
+                    for(let opt of options) { opt.classList.remove('selected'); opt.classList.add('disabled'); }
+                    
+                    const userChoice = userAnswers[q.id];
+                    document.getElementById(`opt-${q.id}-${q.answer}`).classList.add('correct');
+                    
+                    if (userChoice !== undefined && userChoice !== q.answer) {
+                        document.getElementById(`opt-${q.id}-${userChoice}`).classList.add('wrong');
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Thi Trắc Nghiệm</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+ 
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        /* Test Selection View */
+        .test-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .test-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .test-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Quiz View */
+        .quiz-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .quiz-header h2 {
+            font-size: 24px;
+            color: #667eea;
+        }
+
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #5a6268;
+        }
+
+        .score-display {
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .question-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            background: #f0f1ff;
+            border-color: #667eea;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .option.selected {
+            background: #e8ebff;
+            border-color: #667eea;
+        }
+
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .answer-info {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .answer-info.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .answer-info.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .quiz-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+        }
+
+        .pagination button:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .pagination button.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-info {
+            font-weight: bold;
+            color: #667eea;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .results {
+            background: #f8f9fa;
+            padding: 30px 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .results h3 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .score-circle.excellent {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .score-circle.good {
+            background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);
+        }
+
+        .score-circle.average {
+            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+        }
+
+        .score-circle.poor {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+
+        .result-message {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 8px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .question-nav {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+            gap: 8px;
+            margin-bottom: 20px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .question-nav button {
+            padding: 8px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            min-height: 35px;
+        }
+
+        .question-nav button:hover {
+            border-color: #667eea;
+            background: #f0f1ff;
+        }
+
+        .question-nav button.answered {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #28a745;
+        }
+
+        .question-nav button.current {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .question-nav button.unanswered {
+            background: #fff3cd;
+            border-color: #ffc107;
+            color: #ff9800;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 22px;
+            }
+
+            .quiz-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .test-list {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+
+            .btn {
+                min-width: 100px;
+                padding: 10px;
+            }
+
+            .score-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 36px;
+            }
+
+            .question-nav {
+                grid-template-columns: repeat(auto-fit, minmax(35px, 1fr));
+                gap: 5px;
+            }
+        }
+
+        .nav-section {
+            margin-bottom: 15px;
+        }
+
+        .nav-section-title {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 Ôn Thi Trắc Nghiệm</h1>
+            <p>Ôn tập dễ dàng, nhanh chóng trên mọi thiết bị</p>
+        </header>
+
+        <div class="content">
+            <!-- Test Selection View -->
+            <div id="testSelection" class="view">
+                <h2 style="margin-bottom: 20px; color: #667eea;">Chọn đề thi</h2>
+                <div class="test-list" id="testList"></div>
+            </div>
+
+            <!-- Quiz View -->
+            <div id="quizView" class="view hidden">
+                <div class="quiz-header">
+                    <h2 id="quizTitle"></h2>
+                    <button class="back-btn" onclick="backToSelection()">← Quay lại</button>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <div class="nav-section-title">Điều hướng nhanh</div>
+                    <div class="question-nav" id="questionNav"></div>
+                </div>
+
+                <div id="questionsContainer"></div>
+
+                <div class="quiz-controls">
+                    <button class="btn btn-secondary" onclick="previousQuestion()" id="prevBtn">← Câu trước</button>
+                    <button class="btn btn-primary" onclick="submitQuiz()" id="submitBtn">Nộp bài</button>
+                    <button class="btn btn-secondary" onclick="nextQuestion()" id="nextBtn">Câu sau →</button>
+                </div>
+
+                <div id="resultsView" class="hidden">
+                    <div class="results">
+                        <h3>Kết quả bài làm</h3>
+                        <div class="score-circle" id="scoreCircle">0/0</div>
+                        <div class="result-message" id="resultMessage"></div>
+                        <div style="font-size: 18px; margin-bottom: 20px; color: #333;">
+                            <p id="scorePercentage"></p>
+                            <p id="answerSummary"></p>
+                        </div>
+                        <div class="quiz-controls">
+                            <button class="btn btn-primary" onclick="backToSelection()">Chọn đề khác</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Test data with answers
+        const testAnswers = {
+            1: { 1: 'A', 2: 'B', 3: 'B', 4: 'B', 5: 'C', 6: 'D', 7: 'A', 8: 'A', 9: 'A', 10: 'A', 11: 'A', 12: 'B', 13: 'B', 14: 'A', 15: 'A', 16: 'A', 17: 'A', 18: 'C', 19: 'A', 20: 'C', 21: 'A', 22: 'B', 23: 'A', 24: 'A', 25: 'C', 26: 'C', 27: 'D', 28: 'A', 29: 'A', 30: 'A' },
+            2: { 1: 'D', 2: 'A', 3: 'A', 4: 'C', 5: 'B', 6: 'A', 7: 'A', 8: 'A', 9: 'A', 10: 'A', 11: 'B', 12: 'A', 13: 'B', 14: 'A', 15: 'C', 16: 'C', 17: 'A', 18: 'B', 19: 'A', 20: 'A', 21: 'A', 22: 'B', 23: 'D', 24: 'A', 25: 'B', 26: 'A', 27: 'D', 28: 'B', 29: 'C', 30: 'A' },
+            3: { 1: 'C', 2: 'B', 3: 'B', 4: 'C', 5: 'A', 6: 'C', 7: 'A', 8: 'A', 9: 'A', 10: 'A', 11: 'A', 12: 'A', 13: 'C', 14: 'A', 15: 'C', 16: 'A', 17: 'B', 18: 'A', 19: 'C', 20: 'C', 21: 'A', 22: 'C', 23: 'B', 24: 'D', 25: 'A', 26: 'C', 27: 'D', 28: 'A', 29: 'B', 30: 'C' },
+            4: { 1: 'C', 2: 'D', 3: 'A', 4: 'A', 5: 'B', 6: 'A', 7: 'A', 8: 'A', 9: 'A', 10: 'A', 11: 'A', 12: 'A', 13: 'B', 14: 'C', 15: 'C', 16: 'A', 17: 'A', 18: 'B', 19: 'A', 20: 'B', 21: 'B', 22: 'C', 23: 'B', 24: 'D', 25: 'A', 26: 'C', 27: 'D', 28: 'A', 29: 'B', 30: 'C' },
+            5: { 1: 'C', 2: 'C', 3: 'A', 4: 'C', 5: 'A', 6: 'B', 7: 'A', 8: 'A', 9: 'A', 10: 'A', 11: 'A', 12: 'C', 13: 'B', 14: 'B', 15: 'A', 16: 'B', 17: 'A', 18: 'A', 19: 'C', 20: 'C', 21: 'C', 22: 'A', 23: 'B', 24: 'D', 25: 'A', 26: 'C', 27: 'A', 28: 'B', 29: 'D', 30: 'A' },
+            6: { 1: 'B', 2: 'C', 3: 'B', 4: 'A', 5: 'C', 6: 'D', 7: 'A', 8: 'A', 9: 'A', 10: 'A', 11: 'C', 12: 'C', 13: 'B', 14: 'C', 15: 'C', 16: 'D', 17: 'B', 18: 'A', 19: 'C', 20: 'A', 21: 'B', 22: 'D', 23: 'D', 24: 'B', 25: 'C', 26: 'A', 27: 'D', 28: 'A', 29: 'B', 30: 'C' },
+            7: { 1: 'B', 2: 'C', 3: 'A', 4: 'B', 5: 'C', 6: 'B', 7: 'A', 8: 'A', 9: 'A', 10: 'A', 11: 'B', 12: 'C', 13: 'C', 14: 'A', 15: 'B', 16: 'A', 17: 'C', 18: 'B', 19: 'A', 20: 'C', 21: 'B', 22: 'A', 23: 'D', 24: 'C', 25: 'B', 26: 'A', 27: 'D', 28: 'C', 29: 'B', 30: 'A' },
+            8: { 1: 'D', 2: 'A', 3: 'B', 4: 'C', 5: 'C', 6: 'A', 7: 'A', 8: 'A', 9: 'A', 10: 'A', 11: 'A', 12: 'C', 13: 'C', 14: 'C', 15: 'B', 16: 'B', 17: 'C', 18: 'A', 19: 'C', 20: 'A', 21: 'D', 22: 'A', 23: 'B', 24: 'D', 25: 'A', 26: 'B', 27: 'C', 28: 'A', 29: 'D', 30: 'A' },
+            9: { 1: 'D', 2: 'B', 3: 'B', 4: 'C', 5: 'A', 6: 'B', 7: 'A', 8: 'A', 9: 'A', 10: 'A', 11: 'A', 12: 'C', 13: 'D', 14: 'D', 15: 'C', 16: 'B', 17: 'A', 18: 'B', 19: 'C', 20: 'A', 21: 'A', 22: 'A', 23: 'A', 24: 'A', 25: 'C', 26: 'C', 27: 'C', 28: 'C', 29: 'D', 30: 'D' },
+            10: { 1: 'B', 2: 'A', 3: 'C', 4: 'D', 5: 'B', 6: 'B', 7: 'A', 8: 'A', 9: 'A', 10: 'A', 11: 'C', 12: 'A', 13: 'C', 14: 'C', 15: 'A', 16: 'C', 17: 'D', 18: 'A', 19: 'B', 20: 'A', 21: 'A', 22: 'B', 23: 'D', 24: 'C', 25: 'D', 26: 'C', 27: 'A', 28: 'B', 29: 'D', 30: 'A' },
+            11: { 1: 'A', 2: 'D', 3: 'B', 4: 'C', 5: 'B', 6: 'D', 7: 'A', 8: 'A', 9: 'A', 10: 'A', 11: 'C', 12: 'A', 13: 'B', 14: 'D', 15: 'B', 16: 'B', 17: 'C', 18: 'A', 19: 'D', 20: 'C', 21: 'A', 22: 'B', 23: 'D', 24: 'C', 25: 'C', 26: 'A', 27: 'D', 28: 'A', 29: 'B', 30: 'A' },
+            12: { 1: 'C', 2: 'B', 3: 'C', 4: 'D', 5: 'B', 6: 'C', 7: 'A', 8: 'A', 9: 'A', 10: 'A', 11: 'B', 12: 'D', 13: 'A', 14: 'B', 15: 'C', 16: 'A', 17: 'B', 18: 'D', 19: 'C', 20: 'A', 21: 'D', 22: 'C', 23: 'D', 24: 'A', 25: 'B', 26: 'C', 27: 'C', 28: 'D', 29: 'A', 30: 'B' },
+            13: { 1: 'C', 2: 'B', 3: 'B', 4: 'C', 5: 'D', 6: 'B', 7: 'A', 8: 'A', 9: 'A', 10: 'A', 11: 'A', 12: 'B', 13: 'B', 14: 'A', 15: 'C', 16: 'B', 17: 'C', 18: 'A', 19: 'A', 20: 'B', 21: 'D', 22: 'C', 23: 'A', 24: 'C', 25: 'D', 26: 'B', 27: 'A', 28: 'C', 29: 'C', 30: 'A' },
+            14: { 1: 'B', 2: 'C', 3: 'B', 4: 'A', 5: 'C', 6: 'D', 7: 'A', 8: 'A', 9: 'A', 10: 'A', 11: 'A', 12: 'C', 13: 'B', 14: 'C', 15: 'B', 16: 'B', 17: 'A', 18: 'A', 19: 'C', 20: 'A', 21: 'B', 22: 'A', 23: 'D', 24: 'B', 25: 'A', 26: 'C', 27: 'D', 28: 'A', 29: 'C', 30: 'A' },
+            15: { 1: 'A', 2: 'A', 3: 'C', 4: 'D', 5: 'A', 6: 'A', 7: 'A', 8: 'A', 9: 'A', 10: 'A', 11: 'D', 12: 'B', 13: 'B', 14: 'C', 15: 'A', 16: 'B', 17: 'A', 18: 'C', 19: 'B', 20: 'C', 21: 'B', 22: 'C', 23: 'D', 24: 'A', 25: 'B', 26: 'A', 27: 'D', 28: 'B', 29: 'C', 30: 'A' },
+            16: { 1: 'B', 2: 'A', 3: 'B', 4: 'B', 5: 'C', 6: 'B', 7: 'B', 8: 'A', 9: 'A', 10: 'D', 11: 'B', 12: 'A', 13: 'B', 14: 'C', 15: 'A', 16: 'A', 17: 'A', 18: 'B', 19: 'C', 20: 'B', 21: '', 22: 'C', 23: 'C', 24: 'A', 25: 'B', 26: 'D', 27: 'B', 28: 'D', 29: 'D', 30: 'B' },
+            17: { 1: 'B', 2: 'A', 3: 'C', 4: 'A', 5: 'B', 6: 'A', 7: 'A', 8: 'D', 9: 'D', 10: 'A', 11: 'A', 12: 'B', 13: 'C', 14: 'B', 15: 'A', 16: 'B', 17: 'A', 18: 'C', 19: 'A', 20: 'B', 21: 'D', 22: 'D', 23: 'C', 24: 'A', 25: 'B', 26: 'A', 27: 'C', 28: 'B', 29: 'B', 30: 'A' },
+            18: { 1: 'B', 2: 'D', 3: 'B', 4: 'D', 5: 'A', 6: 'C', 7: 'C', 8: 'C', 9: 'D', 10: 'B', 11: 'C', 12: 'A', 13: 'B', 14: 'A', 15: 'B', 16: 'C', 17: 'A', 18: 'B', 19: 'A', 20: 'B', 21: 'B', 22: 'C', 23: 'D', 24: 'A', 25: 'B', 26: 'A', 27: 'C', 28: 'A', 29: 'B', 30: 'D' },
+            19: { 1: 'D', 2: 'C', 3: 'B', 4: 'D', 5: 'A', 6: 'B', 7: 'C', 8: 'D', 9: 'B', 10: 'C', 11: 'A', 12: 'A', 13: 'A', 14: 'C', 15: 'C', 16: 'A', 17: 'C', 18: 'A', 19: 'B', 20: 'A', 21: 'B', 22: 'A', 23: 'B', 24: 'D', 25: 'C', 26: 'C', 27: 'B', 28: 'A', 29: 'B', 30: 'D' },
+            20: { 1: 'C', 2: 'C', 3: 'C', 4: 'C', 5: 'B', 6: 'C', 7: 'B', 8: 'B', 9: 'C', 10: 'A', 11: 'A', 12: 'A', 13: 'C', 14: 'C', 15: 'A', 16: 'B', 17: 'A', 18: 'B', 19: 'A', 20: 'C', 21: 'B', 22: 'D', 23: 'A', 24: 'D', 25: 'C', 26: 'C', 27: 'A', 28: 'B', 29: 'B', 30: 'C' }
+        };
+
+        // Question data - Empty for now, will be added later
+        let questionData = {};
+        let currentTest = null;
+        let currentQuestion = 0;
+        let userAnswers = {};
+
+        // Initialize
+        function init() {
+            renderTestSelection();
+        }
+
+        function renderTestSelection() {
+            const testList = document.getElementById('testList');
+            testList.innerHTML = '';
+
+            for (let i = 1; i <= 20; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'test-btn';
+                btn.textContent = `TEST ${String(i).padStart(2, '0')}`;
+                btn.onclick = () => startTest(i);
+                testList.appendChild(btn);
+            }
+
+            showView('testSelection');
+        }
+
+        function startTest(testNum) {
+            currentTest = testNum;
+            currentQuestion = 0;
+            userAnswers = {};
+
+            // Initialize question data if not exists
+            if (!questionData[testNum]) {
+                questionData[testNum] = generateQuestionData(testNum);
+            }
+
+            showView('quizView');
+            renderQuiz();
+        }
+
+        function generateQuestionData(testNum) {
+            const passages = {
+                1: {
+                    test1_part3: "OVERSTAYING VIETNAM VISAS\n\nAccording to Vietnam Immigration policy, foreigners wishing to enter Vietnam legally are required to have a valid Vietnam visa. However, in some cases, because of unexpected reasons, visa holders do not exit Vietnam or extend the visa even their Vietnam visas expire. In this case, foreigners will be penalized for their actions.\n\nIf traveler's visa has been expired no more than 3 days, besides visa extension fee, the holder must pay penalty fee for overstaying about 25 USD per day overstaying. For foreigners planning to exit Vietnam after overstaying for no more than 3 days, they can pay fine fee by themselves to Vietnam Immigration officer at ports of exit, and then leave the country.\n\nIf foreigner's visa has been expired for a long time, they are to get an exit visa or visa extension immediately. Exit visa allows them a specified period to leave Vietnam legally. In order to get an exit visa or visa extension, visa holders need to submit their original passports, then pay the fine fee and fee for extension or exit one. Normally, it takes 7 to 10 days to get an exit or extended visa.\n\nTo avoid any problems while living or exiting Vietnam, foreigners are advised to pay attention to their Vietnam visa valid duration. If they want to stay in the country longer their visa temporary period, foreigners should contact Vietnam Immigration Department to arrange visa extension or visa renewal before expiration date."
+                },
+                2: {
+                    test2_part3: "TRAVEL FROM VIETNAM TO CAMBODIA\n\nVietnam and Cambodia are neighbors in Southeast Asia on the Indochina Peninsula. The two countries share a long border with a variety of crossings. Travel between the two countries is remarkably easy, with a variety of ways to travel, including flights, buses, cars and boats.\n\nTravel Documents: Visas are required to travel from Vietnam into Cambodia; however, they are available on arrival at airports and border crossings. In order to qualify for a visa on arrival, you must have two passport-sized photographs with you, although if you don't, you may simply be fined a small amount and granted a visa anyway.\n\nFlights: Cambodia has two major airports, one in the capital, Phnom Penh (airport code PNH), and one in Siem Reap (REP), which is near the Angkor Wat temple complex. Most flights from Vietnam to Cambodia originate in Ho Chi Minh City and take between one to two hours. Arriving by air in Cambodia is relatively simple and the customs process is mostly hassle-free.\n\nLand Crossings: Numerous land crossings are available between Vietnam and Cambodia. Many people travel from Ho Chi Minh City to Phnom Penh by bus, a trip that takes approximately six hours, including a border stop. This crossing is called Moc Bai on the Vietnamese side and Bavet on the Cambodian side.\n\nWater Crossings: The Mekong River runs north to south through Cambodia before ending in Vietnam. River boat border crossings are available with brief stops on land to check passports and visas. Fast boat service is available from Chau Doc in Vietnam to Phnom Penh."
+                }
+            };
+
+            const allQuestions = {
+                1: {
+                    1: { text: "I laughed a lot because the movie was________", options: ["funny", "excited", "frightening", "boring"] },
+                    2: { text: "Please remember ________your hand during the test if you have a question.", options: ["raise", "to raise", "raising", "to raising"] },
+                    3: { text: "My brothers are working ________ for the exam.", options: ["hardly", "hard", "more hard", "hardness"] },
+                    4: { text: "My parents often goes to the countryside in their free time. The quiet and ________ atmosphere there calm them down.", options: ["polluted", "peaceful", "dirty", "noisy"] },
+                    5: { text: "When she was at university, my mum did a ________in Literature.", options: ["study", "subject", "degree", "certificate"] },
+                    6: { text: "They wanted to buy a drink, but the machine was out of ________", options: ["work", "position", "operation", "order"] },
+                    7: { text: "Passengers to Vietnam may ________ for a visa on arrival in certain situations", options: ["apply", "ask", "request", "require"] },
+                    8: { text: "The _____for a Vietnamese single visa is 25 USD, a multiple one is 50 USD", options: ["fee", "price", "cost", "money"] },
+                    9: { text: "Passengers are required to present their________ passports or travel documents, photos and an application form for visa issuance.", options: ["valid", "invalid", "expire", "fraud"] },
+                    10: { text: "Crews of a ship may stay in a hotel after they have ____from Port Border Guard.", options: ["permit", "certificate", "license", "degree"] },
+                    11: { text: "PART 2 - Question 11: Look at the text in each question", options: ["A", "B", "C", "D"] },
+                    12: { text: "PART 2 - Question 12: Look at the text in each question", options: ["A", "B", "C", "D"] },
+                    13: { text: "PART 2 - Question 13: Look at the text in each question", options: ["A", "B", "C", "D"] },
+                    14: { text: "PART 2 - Question 14: Look at the text in each question", options: ["A", "B", "C", "D"] },
+                    15: { text: "PART 2 - Question 15: Look at the text in each question", options: ["A", "B", "C", "D"] },
+                    16: { text: "What happens if a foreigner fails to exit Vietnam or extend the visa when his or her Vietnam visa expired?", options: ["He/she will be penalized for their action.", "He/she will enter Vietnam legally.", "He/she will be sent to prison.", "He/she will visit Vietnam."], passage: "test1_part3" },
+                    17: { text: "Where can foreigners planning to exit Vietnam after overstaying for no more than 3 days pay fine fee?", options: ["at ports of exit", "at ports of entry", "at Vietnam Immigration Department", "at the airport"], passage: "test1_part3" },
+                    18: { text: "What does a foreigner do if his/her visa has been expired for a long time?", options: ["He/she must leave Vietnam immediately.", "He/she must submit their original passports.", "He/she must get an exit visa or visa extension immediately.", "He/she must enter Vietnam."], passage: "test1_part3" },
+                    19: { text: "How can a foreigner have his/her visa extended or renewed?", options: ["Contact Immigration Department before expiration date", "Pay the fine fee and fee for extension", "Submit passports and pay fine fee for extension", "He/she should complain"], passage: "test1_part3" },
+                    20: { text: "Where can a foreigner have his/her visa extended or renewed?", options: ["at ports of exit", "at police station", "at Vietnam Immigration Department", "at the border checkpoint"], passage: "test1_part3" },
+                    21: { text: "PART 4 - Question 21: Complete the sentence", options: ["the", "one", "a", "an"] },
+                    22: { text: "PART 4 - Question 22: Complete the sentence", options: ["said", "made", "could", "put"] },
+                    23: { text: "PART 4 - Question 23: Complete the sentence", options: ["opportunities", "customs", "classes", "teachers"] },
+                    24: { text: "PART 4 - Question 24: Complete the sentence", options: ["where", "how", "there", "which"] },
+                    25: { text: "PART 4 - Question 25: Complete the sentence", options: ["by", "from", "for", "in"] },
+                    26: { text: "PART 4 - Question 26: Complete the sentence", options: ["or", "because", "but", "as"] },
+                    27: { text: "PART 4 - Question 27: Complete the sentence", options: ["learnt", "experimented", "did", "invented"] },
+                    28: { text: "PART 4 - Question 28: Complete the sentence", options: ["time", "period", "year", "day"] },
+                    29: { text: "PART 4 - Question 29: Complete the sentence", options: ["anyone", "nobody", "all", "something"] },
+                    30: { text: "PART 4 - Question 30: Complete the sentence", options: ["was", "had", "has", "is"] }
+                },
+                2: {
+                    1: { text: "Participants ________ bring any special equipment as everything will be provided.", options: ["mustn't", "have to", "should", "needn't"] },
+                    2: { text: "They are laughing most of the time in a ________.", options: ["comedy", "science fiction", "documentary", "soap opera"] },
+                    3: { text: "My boyfriend fell over in front of everyone at dinner. It was so ________.", options: ["embarrassing", "embarrassed", "frightening", "frightened"] },
+                    4: { text: "How about ________to the theatre?", options: ["go", "to go", "going", "to going"] },
+                    5: { text: "If the company hadn't advertised, ____people would have known about the product.", options: ["a lot of", "few", "many", "much"] },
+                    6: { text: "Look out! The ones on the top _____", options: ["are going to fall", "are falling", "will fall", "is going to fall"] },
+                    7: { text: "_____ of a ship may stay in a hotel after they have permit from Port Border Guards.", options: ["Crews", "Pilots", "License", "Degree"] },
+                    8: { text: "Drivers must have valid passport or their valid papers and visas, driving ________ and other documents.", options: ["license", "Certificate", "Degree", "Diploma"] },
+                    9: { text: "Certificate of Registration is one of the required _________ for vehicles to enter and exit.", options: ["documents", "passports", "visas", "paper"] },
+                    10: { text: "The use of fraud passport or travel documents is _______ according to Vietnamese laws.", options: ["illegal", "allowed", "legal", "acceptable"] },
+                    11: { text: "PART 2 - Question 11", options: ["A", "B", "C", "D"] },
+                    12: { text: "PART 2 - Question 12", options: ["A", "B", "C", "D"] },
+                    13: { text: "PART 2 - Question 13", options: ["A", "B", "C", "D"] },
+                    14: { text: "PART 2 - Question 14", options: ["A", "B", "C", "D"] },
+                    15: { text: "PART 2 - Question 15", options: ["A", "B", "C", "D"] },
+                    16: { text: "By which ways can visitors travel from Vietnam to Cambodia?", options: ["flights, buses and cars", "flights, cars and boats", "flights, buses, cars and boats", "motorbikes, buses, cars"], passage: "test2_part3" },
+                    17: { text: "What do visitors do to have a Cambodian visa upon arrival?", options: ["Both A and B", "They must have two passport-sized photographs", "They must pay the fine a small amount", "They must do nothing"], passage: "test2_part3" },
+                    18: { text: "How long does it take a visitor to travel from Ho Chi Minh to Cambodia by bus?", options: ["takes 3 hours", "takes 6 hours", "takes between one to two hours", "takes 2 hours"], passage: "test2_part3" },
+                    19: { text: "What is the name of the border stop mentioned in land crossing paragraph?", options: ["Moc Bai on the Vietnamese side and Bavet on the Cambodian side", "Chau Doc on the Vietnamese side and Bavet", "Moc Bai on the Vietnamese side and Siem Reap", "Moc Bai on the Cambodian side and Chau Doc"], passage: "test2_part3" },
+                    20: { text: "Where does fast boat service operate?", options: ["Fast boat service is available from Chau Doc in Vietnam to Phnom Penh", "Fast boat service is available from Moc Bai in Vietnam to Phnom Penh", "Fast boat service is available from Mekong River in Vietnam to Phnom Penh", "Fast boat service is available from Moc Chau in Vietnam"], passage: "test2_part3" },
+                    21: { text: "PART 4 - Question 21", options: ["popular", "famous", "favourite", "current"] },
+                    22: { text: "PART 4 - Question 22", options: ["baggage", "equipment", "property", "tool"] },
+                    23: { text: "PART 4 - Question 23", options: ["voyages", "ways", "directions", "distances"] },
+                    24: { text: "PART 4 - Question 24", options: ["by", "on", "at", "of"] },
+                    25: { text: "PART 4 - Question 25", options: ["make", "take", "pick", "do"] },
+                    26: { text: "PART 4 - Question 26", options: ["which", "who", "where", "when"] },
+                    27: { text: "PART 4 - Question 27", options: ["just", "such", "as", "like"] },
+                    28: { text: "PART 4 - Question 28", options: ["lonely", "alone", "single", "separate"] },
+                    29: { text: "PART 4 - Question 29", options: ["stay", "remain", "leave", "let"] },
+                    30: { text: "PART 4 - Question 30", options: ["wild", "natural", "loose", "free"] }
+                }
+            };
+
+            // Nếu test không có dữ liệu chi tiết, tạo dữ liệu mặc định
+            if (!allQuestions[testNum]) {
+                const questions = {};
+                for (let i = 1; i <= 30; i++) {
+                    questions[i] = {
+                        text: `TEST ${String(testNum).padStart(2, '0')} - Câu hỏi ${i}`,
+                        options: ['Đáp án A', 'Đáp án B', 'Đáp án C', 'Đáp án D']
+                    };
+                }
+                return questions;
+            }
+
+            // Lưu passages vào window để renderCurrentQuestion sử dụng
+            window.currentPassages = passages[testNum] || {};
+            return allQuestions[testNum];
+        }
+
+        function renderQuiz() {
+            const testNum = currentTest;
+            const totalQuestions = 30;
+            
+            // Update header
+            document.getElementById('quizTitle').textContent = `TEST ${String(testNum).padStart(2, '0')} (Câu ${currentQuestion + 1}/${totalQuestions})`;
+
+            // Update progress bar
+            const progress = ((currentQuestion + 1) / totalQuestions) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+
+            // Render question navigation
+            renderQuestionNav();
+
+            // Render current question
+            renderCurrentQuestion();
+
+            // Update buttons state
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            document.getElementById('nextBtn').disabled = currentQuestion === totalQuestions - 1;
+        }
+
+        function renderQuestionNav() {
+            const navContainer = document.getElementById('questionNav');
+            navContainer.innerHTML = '';
+
+            for (let i = 1; i <= 30; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                btn.className = i === currentQuestion + 1 ? 'current' : '';
+                
+                if (userAnswers[i]) {
+                    btn.classList.add('answered');
+                } else {
+                    btn.classList.add('unanswered');
+                }
+
+                btn.onclick = () => {
+                    currentQuestion = i - 1;
+                    renderQuiz();
+                    document.getElementById('questionsContainer').scrollIntoView({ behavior: 'smooth' });
+                };
+                navContainer.appendChild(btn);
+            }
+        }
+
+        function renderCurrentQuestion() {
+            const container = document.getElementById('questionsContainer');
+            const qNum = currentQuestion + 1;
+            const question = questionData[currentTest][qNum];
+            
+            let passageHTML = '';
+            if (question.passage && window.currentPassages && window.currentPassages[question.passage]) {
+                const passageText = window.currentPassages[question.passage];
+                passageHTML = `
+                    <div style="background: #f0f0f0; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #667eea; white-space: pre-wrap; line-height: 1.8; font-size: 14px;">
+                        ${passageText}
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = `
+                <div class="question-container">
+                    ${passageHTML}
+                    <div class="question-text">Câu ${qNum}: ${question.text}</div>
+                    <div class="options" id="optionsContainer"></div>
+                </div>
+            `;
+
+            const optionsContainer = document.getElementById('optionsContainer');
+            const options = ['A', 'B', 'C', 'D'];
+
+            options.forEach((option, index) => {
+                const label = document.createElement('label');
+                label.className = 'option';
+                
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = `question_${qNum}`;
+                input.value = option;
+                input.checked = userAnswers[qNum] === option;
+
+                input.addEventListener('change', () => {
+                    userAnswers[qNum] = option;
+                    renderQuestionNav();
+                });
+
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(`${option}. ${question.options[index]}`));
+                
+                optionsContainer.appendChild(label);
+            });
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < 29) {
+                currentQuestion++;
+                renderQuiz();
+                document.getElementById('questionsContainer').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuiz();
+                document.getElementById('questionsContainer').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function submitQuiz() {
+            // Calculate score
+            const correctAnswers = testAnswers[currentTest];
+            let score = 0;
+            let answered = 0;
+
+            for (let i = 1; i <= 30; i++) {
+                if (userAnswers[i]) {
+                    answered++;
+                    if (userAnswers[i] === correctAnswers[i]) {
+                        score++;
+                    }
+                }
+            }
+
+            // Show results
+            const scorePercentage = Math.round((score / 30) * 100);
+            const scoreCircleEl = document.getElementById('scoreCircle');
+            scoreCircleEl.textContent = `${score}/30`;
+
+            let message = '';
+            let scoreClass = '';
+
+            if (scorePercentage >= 80) {
+                message = '🎉 Xuất sắc!';
+                scoreClass = 'excellent';
+            } else if (scorePercentage >= 60) {
+                message = '👍 Tốt!';
+                scoreClass = 'good';
+            } else if (scorePercentage >= 40) {
+                message = '📚 Cần cải thiện';
+                scoreClass = 'average';
+            } else {
+                message = '💪 Cố gắng thêm';
+                scoreClass = 'poor';
+            }
+
+            scoreCircleEl.className = `score-circle ${scoreClass}`;
+            document.getElementById('resultMessage').textContent = message;
+            document.getElementById('scorePercentage').textContent = `${scorePercentage}% - ${score} câu đúng trên ${answered} câu trả lời`;
+            document.getElementById('answerSummary').textContent = `Bạn trả lời ${answered} trên 30 câu hỏi`;
+
+            // Show results and hide quiz controls
+            document.getElementById('resultsView').classList.remove('hidden');
+            document.querySelector('.quiz-controls').style.display = 'none';
+            document.getElementById('questionNav').parentElement.style.display = 'none';
+            document.getElementById('questionsContainer').style.display = 'none';
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function backToSelection() {
+            document.getElementById('resultsView').classList.add('hidden');
+            document.querySelector('.quiz-controls').style.display = 'flex';
+            document.getElementById('questionNav').parentElement.style.display = 'block';
+            document.getElementById('questionsContainer').style.display = 'block';
+            renderTestSelection();
+        }
+
+        function showView(viewId) {
+            const views = document.querySelectorAll('.view');
+            views.forEach(view => view.classList.add('hidden'));
+            document.getElementById(viewId).classList.remove('hidden');
+        }
+
+        // Start the app
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
