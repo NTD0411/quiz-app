@@ -35,7 +35,7 @@
             text-align: center;
         }
  
-        
+
         header h1 {
             font-size: 28px;
             margin-bottom: 10px;
@@ -570,6 +570,15 @@
         }
 
         function generateQuestionData(testNum) {
+            const passages = {
+                1: {
+                    test1_part3: "OVERSTAYING VIETNAM VISAS\n\nAccording to Vietnam Immigration policy, foreigners wishing to enter Vietnam legally are required to have a valid Vietnam visa. However, in some cases, because of unexpected reasons, visa holders do not exit Vietnam or extend the visa even their Vietnam visas expire. In this case, foreigners will be penalized for their actions.\n\nIf traveler's visa has been expired no more than 3 days, besides visa extension fee, the holder must pay penalty fee for overstaying about 25 USD per day overstaying. For foreigners planning to exit Vietnam after overstaying for no more than 3 days, they can pay fine fee by themselves to Vietnam Immigration officer at ports of exit, and then leave the country.\n\nIf foreigner's visa has been expired for a long time, they are to get an exit visa or visa extension immediately. Exit visa allows them a specified period to leave Vietnam legally. In order to get an exit visa or visa extension, visa holders need to submit their original passports, then pay the fine fee and fee for extension or exit one. Normally, it takes 7 to 10 days to get an exit or extended visa.\n\nTo avoid any problems while living or exiting Vietnam, foreigners are advised to pay attention to their Vietnam visa valid duration. If they want to stay in the country longer their visa temporary period, foreigners should contact Vietnam Immigration Department to arrange visa extension or visa renewal before expiration date."
+                },
+                2: {
+                    test2_part3: "TRAVEL FROM VIETNAM TO CAMBODIA\n\nVietnam and Cambodia are neighbors in Southeast Asia on the Indochina Peninsula. The two countries share a long border with a variety of crossings. Travel between the two countries is remarkably easy, with a variety of ways to travel, including flights, buses, cars and boats.\n\nTravel Documents: Visas are required to travel from Vietnam into Cambodia; however, they are available on arrival at airports and border crossings. In order to qualify for a visa on arrival, you must have two passport-sized photographs with you, although if you don't, you may simply be fined a small amount and granted a visa anyway.\n\nFlights: Cambodia has two major airports, one in the capital, Phnom Penh (airport code PNH), and one in Siem Reap (REP), which is near the Angkor Wat temple complex. Most flights from Vietnam to Cambodia originate in Ho Chi Minh City and take between one to two hours. Arriving by air in Cambodia is relatively simple and the customs process is mostly hassle-free.\n\nLand Crossings: Numerous land crossings are available between Vietnam and Cambodia. Many people travel from Ho Chi Minh City to Phnom Penh by bus, a trip that takes approximately six hours, including a border stop. This crossing is called Moc Bai on the Vietnamese side and Bavet on the Cambodian side.\n\nWater Crossings: The Mekong River runs north to south through Cambodia before ending in Vietnam. River boat border crossings are available with brief stops on land to check passports and visas. Fast boat service is available from Chau Doc in Vietnam to Phnom Penh."
+                }
+            };
+
             const allQuestions = {
                 1: {
                     1: { text: "I laughed a lot because the movie was________", options: ["funny", "excited", "frightening", "boring"] },
@@ -587,11 +596,11 @@
                     13: { text: "PART 2 - Question 13: Look at the text in each question", options: ["A", "B", "C", "D"] },
                     14: { text: "PART 2 - Question 14: Look at the text in each question", options: ["A", "B", "C", "D"] },
                     15: { text: "PART 2 - Question 15: Look at the text in each question", options: ["A", "B", "C", "D"] },
-                    16: { text: "What happens if a foreigner fails to exit Vietnam or extend the visa when his or her Vietnam visa expired?", options: ["He/she will be penalized for their action.", "He/she will enter Vietnam legally.", "He/she will be sent to prison.", "He/she will visit Vietnam."] },
-                    17: { text: "Where can foreigners planning to exit Vietnam after overstaying for no more than 3 days pay fine fee?", options: ["at ports of exit", "at ports of entry", "at Vietnam Immigration Department", "at the airport"] },
-                    18: { text: "What does a foreigner do if his/her visa has been expired for a long time?", options: ["He/she must leave Vietnam immediately.", "He/she must submit their original passports.", "He/she must get an exit visa or visa extension immediately.", "He/she must enter Vietnam."] },
-                    19: { text: "How can a foreigner have his/her visa extended or renewed?", options: ["Contact Immigration Department before expiration date", "Pay the fine fee and fee for extension", "Submit passports and pay fine fee for extension", "He/she should complain"] },
-                    20: { text: "Where can a foreigner have his/her visa extended or renewed?", options: ["at ports of exit", "at police station", "at Vietnam Immigration Department", "at the border checkpoint"] },
+                    16: { text: "What happens if a foreigner fails to exit Vietnam or extend the visa when his or her Vietnam visa expired?", options: ["He/she will be penalized for their action.", "He/she will enter Vietnam legally.", "He/she will be sent to prison.", "He/she will visit Vietnam."], passage: "test1_part3" },
+                    17: { text: "Where can foreigners planning to exit Vietnam after overstaying for no more than 3 days pay fine fee?", options: ["at ports of exit", "at ports of entry", "at Vietnam Immigration Department", "at the airport"], passage: "test1_part3" },
+                    18: { text: "What does a foreigner do if his/her visa has been expired for a long time?", options: ["He/she must leave Vietnam immediately.", "He/she must submit their original passports.", "He/she must get an exit visa or visa extension immediately.", "He/she must enter Vietnam."], passage: "test1_part3" },
+                    19: { text: "How can a foreigner have his/her visa extended or renewed?", options: ["Contact Immigration Department before expiration date", "Pay the fine fee and fee for extension", "Submit passports and pay fine fee for extension", "He/she should complain"], passage: "test1_part3" },
+                    20: { text: "Where can a foreigner have his/her visa extended or renewed?", options: ["at ports of exit", "at police station", "at Vietnam Immigration Department", "at the border checkpoint"], passage: "test1_part3" },
                     21: { text: "PART 4 - Question 21: Complete the sentence", options: ["the", "one", "a", "an"] },
                     22: { text: "PART 4 - Question 22: Complete the sentence", options: ["said", "made", "could", "put"] },
                     23: { text: "PART 4 - Question 23: Complete the sentence", options: ["opportunities", "customs", "classes", "teachers"] },
@@ -619,11 +628,11 @@
                     13: { text: "PART 2 - Question 13", options: ["A", "B", "C", "D"] },
                     14: { text: "PART 2 - Question 14", options: ["A", "B", "C", "D"] },
                     15: { text: "PART 2 - Question 15", options: ["A", "B", "C", "D"] },
-                    16: { text: "By which ways can visitors travel from Vietnam to Cambodia?", options: ["flights, buses and cars", "flights, cars and boats", "flights, buses, cars and boats", "motorbikes, buses, cars"] },
-                    17: { text: "What do visitors do to have a Cambodian visa upon arrival?", options: ["Both A and B", "They must have two passport-sized photographs", "They must pay the fine a small amount", "They must do nothing"] },
-                    18: { text: "How long does it take a visitor to travel from Ho Chi Minh to Cambodia by bus?", options: ["takes 3 hours", "takes 6 hours", "takes between one to two hours", "takes 2 hours"] },
-                    19: { text: "What is the name of the border stop mentioned in land crossing paragraph?", options: ["Moc Bai on the Vietnamese side and Bavet on the Cambodian side", "Chau Doc on the Vietnamese side and Bavet", "Moc Bai on the Vietnamese side and Siem Reap", "Moc Bai on the Cambodian side and Chau Doc"] },
-                    20: { text: "Where does fast boat service operate?", options: ["Fast boat service is available from Chau Doc in Vietnam to Phnom Penh", "Fast boat service is available from Moc Bai in Vietnam to Phnom Penh", "Fast boat service is available from Mekong River in Vietnam to Phnom Penh", "Fast boat service is available from Moc Chau in Vietnam"] },
+                    16: { text: "By which ways can visitors travel from Vietnam to Cambodia?", options: ["flights, buses and cars", "flights, cars and boats", "flights, buses, cars and boats", "motorbikes, buses, cars"], passage: "test2_part3" },
+                    17: { text: "What do visitors do to have a Cambodian visa upon arrival?", options: ["Both A and B", "They must have two passport-sized photographs", "They must pay the fine a small amount", "They must do nothing"], passage: "test2_part3" },
+                    18: { text: "How long does it take a visitor to travel from Ho Chi Minh to Cambodia by bus?", options: ["takes 3 hours", "takes 6 hours", "takes between one to two hours", "takes 2 hours"], passage: "test2_part3" },
+                    19: { text: "What is the name of the border stop mentioned in land crossing paragraph?", options: ["Moc Bai on the Vietnamese side and Bavet on the Cambodian side", "Chau Doc on the Vietnamese side and Bavet", "Moc Bai on the Vietnamese side and Siem Reap", "Moc Bai on the Cambodian side and Chau Doc"], passage: "test2_part3" },
+                    20: { text: "Where does fast boat service operate?", options: ["Fast boat service is available from Chau Doc in Vietnam to Phnom Penh", "Fast boat service is available from Moc Bai in Vietnam to Phnom Penh", "Fast boat service is available from Mekong River in Vietnam to Phnom Penh", "Fast boat service is available from Moc Chau in Vietnam"], passage: "test2_part3" },
                     21: { text: "PART 4 - Question 21", options: ["popular", "famous", "favourite", "current"] },
                     22: { text: "PART 4 - Question 22", options: ["baggage", "equipment", "property", "tool"] },
                     23: { text: "PART 4 - Question 23", options: ["voyages", "ways", "directions", "distances"] },
@@ -649,6 +658,8 @@
                 return questions;
             }
 
+            // Lưu passages vào window để renderCurrentQuestion sử dụng
+            window.currentPassages = passages[testNum] || {};
             return allQuestions[testNum];
         }
 
@@ -703,8 +714,19 @@
             const qNum = currentQuestion + 1;
             const question = questionData[currentTest][qNum];
             
+            let passageHTML = '';
+            if (question.passage && window.currentPassages && window.currentPassages[question.passage]) {
+                const passageText = window.currentPassages[question.passage];
+                passageHTML = `
+                    <div style="background: #f0f0f0; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #667eea; white-space: pre-wrap; line-height: 1.8; font-size: 14px;">
+                        ${passageText}
+                    </div>
+                `;
+            }
+            
             container.innerHTML = `
                 <div class="question-container">
+                    ${passageHTML}
                     <div class="question-text">Câu ${qNum}: ${question.text}</div>
                     <div class="options" id="optionsContainer"></div>
                 </div>
