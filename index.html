@@ -569,16 +569,86 @@
         }
 
         function generateQuestionData(testNum) {
-            // This function generates dummy question data
-            // In a real scenario, you would load this from a database or API
-            const questions = {};
-            for (let i = 1; i <= 30; i++) {
-                questions[i] = {
-                    text: `Câu hỏi ${i}`,
-                    options: ['Đáp án A', 'Đáp án B', 'Đáp án C', 'Đáp án D']
-                };
+            const allQuestions = {
+                1: {
+                    1: { text: "I laughed a lot because the movie was________", options: ["funny", "excited", "frightening", "boring"] },
+                    2: { text: "Please remember ________your hand during the test if you have a question.", options: ["raise", "to raise", "raising", "to raising"] },
+                    3: { text: "My brothers are working ________ for the exam.", options: ["hardly", "hard", "more hard", "hardness"] },
+                    4: { text: "My parents often goes to the countryside in their free time. The quiet and ________ atmosphere there calm them down.", options: ["polluted", "peaceful", "dirty", "noisy"] },
+                    5: { text: "When she was at university, my mum did a ________in Literature.", options: ["study", "subject", "degree", "certificate"] },
+                    6: { text: "They wanted to buy a drink, but the machine was out of ________", options: ["work", "position", "operation", "order"] },
+                    7: { text: "Passengers to Vietnam may ________ for a visa on arrival in certain situations", options: ["apply", "ask", "request", "require"] },
+                    8: { text: "The _____for a Vietnamese single visa is 25 USD, a multiple one is 50 USD", options: ["fee", "price", "cost", "money"] },
+                    9: { text: "Passengers are required to present their________ passports or travel documents, photos and an application form for visa issuance.", options: ["valid", "invalid", "expire", "fraud"] },
+                    10: { text: "Crews of a ship may stay in a hotel after they have ____from Port Border Guard.", options: ["permit", "certificate", "license", "degree"] },
+                    11: { text: "PART 2 - Question 11: Look at the text in each question", options: ["A", "B", "C", "D"] },
+                    12: { text: "PART 2 - Question 12: Look at the text in each question", options: ["A", "B", "C", "D"] },
+                    13: { text: "PART 2 - Question 13: Look at the text in each question", options: ["A", "B", "C", "D"] },
+                    14: { text: "PART 2 - Question 14: Look at the text in each question", options: ["A", "B", "C", "D"] },
+                    15: { text: "PART 2 - Question 15: Look at the text in each question", options: ["A", "B", "C", "D"] },
+                    16: { text: "What happens if a foreigner fails to exit Vietnam or extend the visa when his or her Vietnam visa expired?", options: ["He/she will be penalized for their action.", "He/she will enter Vietnam legally.", "He/she will be sent to prison.", "He/she will visit Vietnam."] },
+                    17: { text: "Where can foreigners planning to exit Vietnam after overstaying for no more than 3 days pay fine fee?", options: ["at ports of exit", "at ports of entry", "at Vietnam Immigration Department", "at the airport"] },
+                    18: { text: "What does a foreigner do if his/her visa has been expired for a long time?", options: ["He/she must leave Vietnam immediately.", "He/she must submit their original passports.", "He/she must get an exit visa or visa extension immediately.", "He/she must enter Vietnam."] },
+                    19: { text: "How can a foreigner have his/her visa extended or renewed?", options: ["Contact Immigration Department before expiration date", "Pay the fine fee and fee for extension", "Submit passports and pay fine fee for extension", "He/she should complain"] },
+                    20: { text: "Where can a foreigner have his/her visa extended or renewed?", options: ["at ports of exit", "at police station", "at Vietnam Immigration Department", "at the border checkpoint"] },
+                    21: { text: "PART 4 - Question 21: Complete the sentence", options: ["the", "one", "a", "an"] },
+                    22: { text: "PART 4 - Question 22: Complete the sentence", options: ["said", "made", "could", "put"] },
+                    23: { text: "PART 4 - Question 23: Complete the sentence", options: ["opportunities", "customs", "classes", "teachers"] },
+                    24: { text: "PART 4 - Question 24: Complete the sentence", options: ["where", "how", "there", "which"] },
+                    25: { text: "PART 4 - Question 25: Complete the sentence", options: ["by", "from", "for", "in"] },
+                    26: { text: "PART 4 - Question 26: Complete the sentence", options: ["or", "because", "but", "as"] },
+                    27: { text: "PART 4 - Question 27: Complete the sentence", options: ["learnt", "experimented", "did", "invented"] },
+                    28: { text: "PART 4 - Question 28: Complete the sentence", options: ["time", "period", "year", "day"] },
+                    29: { text: "PART 4 - Question 29: Complete the sentence", options: ["anyone", "nobody", "all", "something"] },
+                    30: { text: "PART 4 - Question 30: Complete the sentence", options: ["was", "had", "has", "is"] }
+                },
+                2: {
+                    1: { text: "Participants ________ bring any special equipment as everything will be provided.", options: ["mustn't", "have to", "should", "needn't"] },
+                    2: { text: "They are laughing most of the time in a ________.", options: ["comedy", "science fiction", "documentary", "soap opera"] },
+                    3: { text: "My boyfriend fell over in front of everyone at dinner. It was so ________.", options: ["embarrassing", "embarrassed", "frightening", "frightened"] },
+                    4: { text: "How about ________to the theatre?", options: ["go", "to go", "going", "to going"] },
+                    5: { text: "If the company hadn't advertised, ____people would have known about the product.", options: ["a lot of", "few", "many", "much"] },
+                    6: { text: "Look out! The ones on the top _____", options: ["are going to fall", "are falling", "will fall", "is going to fall"] },
+                    7: { text: "_____ of a ship may stay in a hotel after they have permit from Port Border Guards.", options: ["Crews", "Pilots", "License", "Degree"] },
+                    8: { text: "Drivers must have valid passport or their valid papers and visas, driving ________ and other documents.", options: ["license", "Certificate", "Degree", "Diploma"] },
+                    9: { text: "Certificate of Registration is one of the required _________ for vehicles to enter and exit.", options: ["documents", "passports", "visas", "paper"] },
+                    10: { text: "The use of fraud passport or travel documents is _______ according to Vietnamese laws.", options: ["illegal", "allowed", "legal", "acceptable"] },
+                    11: { text: "PART 2 - Question 11", options: ["A", "B", "C", "D"] },
+                    12: { text: "PART 2 - Question 12", options: ["A", "B", "C", "D"] },
+                    13: { text: "PART 2 - Question 13", options: ["A", "B", "C", "D"] },
+                    14: { text: "PART 2 - Question 14", options: ["A", "B", "C", "D"] },
+                    15: { text: "PART 2 - Question 15", options: ["A", "B", "C", "D"] },
+                    16: { text: "By which ways can visitors travel from Vietnam to Cambodia?", options: ["flights, buses and cars", "flights, cars and boats", "flights, buses, cars and boats", "motorbikes, buses, cars"] },
+                    17: { text: "What do visitors do to have a Cambodian visa upon arrival?", options: ["Both A and B", "They must have two passport-sized photographs", "They must pay the fine a small amount", "They must do nothing"] },
+                    18: { text: "How long does it take a visitor to travel from Ho Chi Minh to Cambodia by bus?", options: ["takes 3 hours", "takes 6 hours", "takes between one to two hours", "takes 2 hours"] },
+                    19: { text: "What is the name of the border stop mentioned in land crossing paragraph?", options: ["Moc Bai on the Vietnamese side and Bavet on the Cambodian side", "Chau Doc on the Vietnamese side and Bavet", "Moc Bai on the Vietnamese side and Siem Reap", "Moc Bai on the Cambodian side and Chau Doc"] },
+                    20: { text: "Where does fast boat service operate?", options: ["Fast boat service is available from Chau Doc in Vietnam to Phnom Penh", "Fast boat service is available from Moc Bai in Vietnam to Phnom Penh", "Fast boat service is available from Mekong River in Vietnam to Phnom Penh", "Fast boat service is available from Moc Chau in Vietnam"] },
+                    21: { text: "PART 4 - Question 21", options: ["popular", "famous", "favourite", "current"] },
+                    22: { text: "PART 4 - Question 22", options: ["baggage", "equipment", "property", "tool"] },
+                    23: { text: "PART 4 - Question 23", options: ["voyages", "ways", "directions", "distances"] },
+                    24: { text: "PART 4 - Question 24", options: ["by", "on", "at", "of"] },
+                    25: { text: "PART 4 - Question 25", options: ["make", "take", "pick", "do"] },
+                    26: { text: "PART 4 - Question 26", options: ["which", "who", "where", "when"] },
+                    27: { text: "PART 4 - Question 27", options: ["just", "such", "as", "like"] },
+                    28: { text: "PART 4 - Question 28", options: ["lonely", "alone", "single", "separate"] },
+                    29: { text: "PART 4 - Question 29", options: ["stay", "remain", "leave", "let"] },
+                    30: { text: "PART 4 - Question 30", options: ["wild", "natural", "loose", "free"] }
+                }
+            };
+
+            // Nếu test không có dữ liệu chi tiết, tạo dữ liệu mặc định
+            if (!allQuestions[testNum]) {
+                const questions = {};
+                for (let i = 1; i <= 30; i++) {
+                    questions[i] = {
+                        text: `TEST ${String(testNum).padStart(2, '0')} - Câu hỏi ${i}`,
+                        options: ['Đáp án A', 'Đáp án B', 'Đáp án C', 'Đáp án D']
+                    };
+                }
+                return questions;
             }
-            return questions;
+
+            return allQuestions[testNum];
         }
 
         function renderQuiz() {
@@ -630,10 +700,11 @@
         function renderCurrentQuestion() {
             const container = document.getElementById('questionsContainer');
             const qNum = currentQuestion + 1;
+            const question = questionData[currentTest][qNum];
             
             container.innerHTML = `
                 <div class="question-container">
-                    <div class="question-text">Câu ${qNum}:</div>
+                    <div class="question-text">Câu ${qNum}: ${question.text}</div>
                     <div class="options" id="optionsContainer"></div>
                 </div>
             `;
@@ -641,7 +712,7 @@
             const optionsContainer = document.getElementById('optionsContainer');
             const options = ['A', 'B', 'C', 'D'];
 
-            options.forEach(option => {
+            options.forEach((option, index) => {
                 const label = document.createElement('label');
                 label.className = 'option';
                 
@@ -657,7 +728,7 @@
                 });
 
                 label.appendChild(input);
-                label.appendChild(document.createTextNode(`${option}. `));
+                label.appendChild(document.createTextNode(`${option}. ${question.options[index]}`));
                 
                 optionsContainer.appendChild(label);
             });
